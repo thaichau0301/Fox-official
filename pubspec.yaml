@@ -1,12 +1,12 @@
-name: thaichau0301_s_application1
+name: fox
 description: A new Flutter project.
 version: 1.0.0+1
 environment: 
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 dependencies: 
   flutter: 
     sdk: flutter
-  flutter_localizations: 
+  flutter_localizations:
     sdk: flutter
   cached_network_image: ^3.3.0
   flutter_svg: ^2.0.9
@@ -19,6 +19,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   sms_autofill: ^2.3.0
   intl: ^0.18.0
+  line_icons: ^2.0.3
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

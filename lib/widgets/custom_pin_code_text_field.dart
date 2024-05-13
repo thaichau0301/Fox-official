@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../core/app_export.dart'; // ignore_for_file: must_be_immutable
+import '../core/app_export.dart';
+import '../theme/theme_helper.dart'; // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 class CustomPinCodeTextField extends StatelessWidget {
@@ -42,9 +44,10 @@ class CustomPinCodeTextField extends StatelessWidget {
   }
 
   Widget get pinCodeTextFieldWidget => PinCodeTextField(
+        autoDisposeControllers: false,
         appContext: context,
         controller: controller,
-        length: 4,
+        length: 6,
         keyboardType: TextInputType.number,
         textStyle: textStyle,
         hintStyle: hintStyle,

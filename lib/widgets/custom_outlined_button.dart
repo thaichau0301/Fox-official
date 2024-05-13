@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../core/app_export.dart';
+import '../theme/custom_text_style.dart';
 import 'base_button.dart';
 
 class CustomOutlinedButton extends BaseButton {

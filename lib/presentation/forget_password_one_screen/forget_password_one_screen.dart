@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
+import '../../core/utils/image_constant.dart';
 import '../../core/utils/validation_functions.dart';
+import '../../routes/app_routes.dart';
+import '../../theme/theme_helper.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_image_view.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/forget_password_one_controller.dart'; // ignore_for_file: must_be_immutable
 // ignore_for_file: must_be_immutable
@@ -22,7 +27,11 @@ class ForgetPasswordOneScreen extends GetWidget<ForgetPasswordOneController> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(),
+        appBar: AppBar(
+            leading: IconButton(
+                onPressed: (){Get.back();},
+                icon: Icon(Icons.close_outlined), iconSize: 30,)
+        ),
         body: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
@@ -56,11 +65,7 @@ class ForgetPasswordOneScreen extends GetWidget<ForgetPasswordOneController> {
                       textInputType: TextInputType.emailAddress,
                       suffix: Container(
                         margin: EdgeInsets.fromLTRB(30.h, 15.v, 16.h, 15.v),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgCancel1,
-                          height: 10.adaptSize,
-                          width: 10.adaptSize,
-                        ),
+                        child: Icon(Icons.close)
                       ),
                       suffixConstraints: BoxConstraints(
                         maxHeight: 40.v,
@@ -92,18 +97,6 @@ class ForgetPasswordOneScreen extends GetWidget<ForgetPasswordOneController> {
   }
 
   /// Section Widget
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 360.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgClose,
-        margin: EdgeInsets.fromLTRB(16.h, 15.v, 319.h, 15.v),
-        onTap: () {
-          onTapCloseone();
-        },
-      ),
-    );
-  }
 
   /// Navigates to the loginScreen when the action is triggered.
   onTapCloseone() {

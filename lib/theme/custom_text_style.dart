@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
+import 'package:fox/theme/theme_helper.dart';
 import '../core/app_export.dart';
 
 extension on TextStyle {

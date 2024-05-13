@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
+import '../../routes/app_routes.dart';
+import '../../theme/app_decoration.dart';
+import '../../theme/theme_helper.dart';
 import 'controller/app_navigation_controller.dart'; // ignore_for_file: must_be_immutable
 
 class AppNavigationScreen extends GetWidget<AppNavigationController> {
