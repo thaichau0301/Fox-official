@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart'; // ignore: must_be_immutable
+import 'package:fox/core/utils/size_utils.dart';
+import '../../core/app_export.dart';
+import '../custom_image_view.dart'; // ignore: must_be_immutable
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable

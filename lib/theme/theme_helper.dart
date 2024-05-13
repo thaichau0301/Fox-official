@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../core/app_export.dart';
+import '../core/utils/pref_utils.dart';
 
 LightCodeColors get appTheme => ThemeHelper().themeColor();
 ThemeData get theme => ThemeHelper().themeData();

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
+import '../../core/utils/image_constant.dart';
+import '../../routes/app_routes.dart';
+import '../../theme/app_decoration.dart';
 import '../../theme/custom_button_style.dart';
+import '../../theme/custom_text_style.dart';
+import '../../theme/theme_helper.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_image_view.dart';
 import 'controller/user_controller.dart'; // ignore_for_file: must_be_immutable
 
 class UserScreen extends GetWidget<UserController> {
@@ -15,12 +22,16 @@ class UserScreen extends GetWidget<UserController> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.gray100,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text('Manage account'),
+        ),
         body: SizedBox(
           width: 390.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTopSection(),
               SizedBox(height: 22.v),
               Padding(
                 padding: EdgeInsets.only(left: 24.h),
@@ -60,56 +71,6 @@ class UserScreen extends GetWidget<UserController> {
   }
 
   /// Section Widget
-  Widget _buildTopSection() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 4.v,
-      ),
-      decoration: AppDecoration.fillOnPrimary,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 73.v),
-          Padding(
-            padding: EdgeInsets.only(right: 105.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgBack25x25,
-                  height: 25.adaptSize,
-                  width: 25.adaptSize,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 4.v),
-                  child: Text(
-                    "lbl_manage_account".tr,
-                    style: CustomTextStyles.titleMediumRoboto,
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 105.v),
-          CustomElevatedButton(
-            height: 52.v,
-            text: "lbl_renew_your_plan".tr,
-            leftIcon: Container(
-              margin: EdgeInsets.only(right: 10.h),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgKing1,
-                height: 20.adaptSize,
-                width: 20.adaptSize,
-              ),
-            ),
-            buttonStyle: CustomButtonStyles.outlineBlackTL16,
-            buttonTextStyle: CustomTextStyles.titleMediumRobotoGray5001,
-          )
-        ],
-      ),
-    );
-  }
 
   /// Section Widget
   Widget _buildVipCurrentSection() {

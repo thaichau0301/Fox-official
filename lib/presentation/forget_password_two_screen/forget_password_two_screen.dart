@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
+import '../../core/utils/image_constant.dart';
+import '../../routes/app_routes.dart';
+import '../../theme/custom_text_style.dart';
+import '../../theme/theme_helper.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
@@ -17,7 +22,11 @@ class ForgetPasswordTwoScreen extends GetWidget<ForgetPasswordTwoController> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(),
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: (){Get.back();},
+              icon: Icon(Icons.arrow_back_ios_new_outlined))
+        ),
         body: Container(
           width: 360.h,
           padding: EdgeInsets.symmetric(
@@ -47,18 +56,23 @@ class ForgetPasswordTwoScreen extends GetWidget<ForgetPasswordTwoController> {
                 textAlign: TextAlign.left,
               ),
               SizedBox(height: 33.v),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.h),
-                child: Obx(
-                  () => CustomPinCodeTextField(
-                    context: Get.context!,
-                    controller: controller.otpController.value,
-                    onChanged: (value) {},
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () => CustomPinCodeTextField(
+                        context: Get.context!,
+                        controller: controller.otpController.value,
+                        onChanged: (value) {},
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               SizedBox(height: 16.v),
               CustomElevatedButton(
+                onPressed: () {Get.toNamed('/home_bottom_nav_bar');},
                 text: "lbl_next".tr,
               ),
               SizedBox(height: 5.v)
@@ -66,27 +80,6 @@ class ForgetPasswordTwoScreen extends GetWidget<ForgetPasswordTwoController> {
           ),
         ),
       ),
-    );
-  }
-
-  /// Section Widget
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 360.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgBack,
-        margin: EdgeInsets.fromLTRB(16.h, 15.v, 319.h, 15.v),
-        onTap: () {
-          onTapBackone();
-        },
-      ),
-    );
-  }
-
-  /// Navigates to the forgetPasswordOneScreen when the action is triggered.
-  onTapBackone() {
-    Get.toNamed(
-      AppRoutes.forgetPasswordOneScreen,
     );
   }
 }
