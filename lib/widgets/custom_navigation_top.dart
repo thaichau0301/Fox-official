@@ -37,7 +37,7 @@ class navigationTop extends StatelessWidget {
               ),
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.flip_outlined,color: primitives.surface_icon1(),)
+                  icon: Icon(Icons.compare_outlined,color: primitives.surface_icon1(),)
               ),
             ],
           )

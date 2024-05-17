@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
-import '../../core/utils/image_constant.dart';
-import '../../routes/app_routes.dart';
 import '../../theme/custom_text_style.dart';
 import '../../theme/theme_helper.dart';
-import '../../widgets/app_bar/appbar_leading_image.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
 import 'controller/forget_password_two_controller.dart'; // ignore_for_file: must_be_immutable
@@ -72,7 +68,7 @@ class ForgetPasswordTwoScreen extends GetWidget<ForgetPasswordTwoController> {
               ),
               SizedBox(height: 16.v),
               CustomElevatedButton(
-                onPressed: () {Get.toNamed('/home_bottom_nav_bar');},
+                onPressed: () {Get.toNamed('/home_bottom_navigation');},
                 text: "lbl_next".tr,
               ),
               SizedBox(height: 5.v)

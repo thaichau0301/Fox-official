@@ -55,7 +55,19 @@ class Primitives {  //0xFF    A1A1A1
   final Rx<double> radius8 = 36.0.obs;
 
   //spacing
-  final Rx<int> spacing0 = 4.obs;
+  final double spacing_none = 0;
+  final double spacing_xs = 4;
+  final double spacing_sm = 8;
+  final double spacing_md = 12;
+  final double spacing_lg = 16;
+  final double spacing_xl = 20;
+  final double spacing_2xl = 24;
+
+  // font size
+  final double font_xs = 10;
+  final double font_sm = 12;
+  final double font_md = 14;
+  final double font_lg = 16;
 
   //Token
   Rx<Color> get surface_text => grey250;
@@ -76,12 +88,15 @@ class Primitives {  //0xFF    A1A1A1
   Rx<Color> get surface_icon2 => grey350;
   Rx<Color> get surface_icon3 => grey450;
   Rx<Color> get surface_icon4 => yellow1;
+
+  Rx<Color> get inactiveIconBottomBar => grey230;
+  Rx<Color> get activeIconBottomBar => grey50;
   // Radius
-  Rx<double> get radius_xs => radius1;
-  Rx<double> get radius_sm => radius2;
-  Rx<double> get radius_md => radius3;
-  Rx<double> get radius_lg => radius4;
-  Rx<double> get radius_xl => radius5;
+  // Rx<double> get radius_xs => radius1;
+  // Rx<double> get radius_sm => radius2;
+  // Rx<double> get radius_md => radius3;
+  // Rx<double> get radius_lg => radius4;
+  // Rx<double> get radius_xl => radius5;
   // Border
   Rx<Color> get border_primary => grey300;
   Rx<Color> get border_secondary => grey180;
@@ -89,6 +104,15 @@ class Primitives {  //0xFF    A1A1A1
   // active and inactive
   Rx<Color> get active => grey250;
   Rx<Color> get inactive => grey480;
+
+  // active and inactive of icon button
+  Rx<Color> get inactiveIconButton => grey50;
+  Rx<Color> get activeIconButton => blue3;
+
+  Rx<Color> get inactiveIconButton2 => grey50;
+  Rx<Color> get activeIconButton2 => yellow1;
+
+  final double space = 20;
 
 
 

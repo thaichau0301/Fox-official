@@ -1,27 +1,30 @@
 
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'FOX',
-          style: TextStyle(fontSize: 30, color: Colors.amber),
+    return Expanded(
+      flex: 5,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            'FOX',
+            style: TextStyle(fontSize: 30, color: Colors.amber),
+          ),
         ),
-      ),
-      body: Center(
-        child: Text('Home', style: TextStyle(fontSize: 40),),
+        body: Center(
+          child: Text('Home', style: TextStyle(fontSize: 40),),
+        ),
       ),
     );
   }
