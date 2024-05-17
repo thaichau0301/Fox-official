@@ -49,7 +49,6 @@ class _mainBottomBarState extends State<mainBottomBar> {
                 case 3 : return RemoveTools();
                 case 4 : return RemoveBgTools();
                 case 5 : return TextEditTools();
-                // case 5 : return Expanded(flex: 3, child: Column(children: [],));
                 case 6 : return DrawTools();
                 case 7 : return InsertSticker();
                 default: return Text('Nothing'); }
