@@ -1,110 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:fox/presentation/main_adjust_screen/controller/main_adjust_controller.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_navigation_top.dart';
-import '../../widgets/custom_placeholder_image_upload.dart';
 import '../../widgets/custom_slider.dart';
 
 Primitives primitives = Get.put(Primitives());
 
 class adjustmentButton {
   late IconData iconAdjust;
+  late String labelIcon;
   Function function;
-  adjustmentButton({required this.iconAdjust, required this.function});
+  adjustmentButton({required this.iconAdjust, required this.labelIcon, required this.function});
 }
-List<IconData> listIcon = [Icons.sunny,
-  Icons.thermostat_outlined,
-  Icons.contrast_outlined,
-  Icons.ac_unit,
-  Icons.change_history_rounded
+var listIcon = [
+  Icons.sunny, // brightness
+  Icons.thermostat_outlined, // temperature
+  Icons.contrast_outlined, // contrast
+  Icons.ac_unit, // saturation
+  Icons.details_outlined // sharpen
 ];
-double paddingIcon = 15;
-double sizeIcon = 25;
-List<adjustmentButton> listAdjustButton = [
-  adjustmentButton(iconAdjust: listIcon[0], function: (){}),
-  adjustmentButton(iconAdjust: listIcon[1], function: (){}),
-  adjustmentButton(iconAdjust: listIcon[2], function: (){}),
-  adjustmentButton(iconAdjust: listIcon[3], function: (){}),
-  adjustmentButton(iconAdjust: listIcon[4], function: (){}),
+var listLabelIcon = [
+  'Brightness', 'Warmth', 'Contrast', 'Saturation', 'Sharpen'
 ];
-class main_adjust extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: buildMainAdjustBody(),
-    );
-  }
-}
-class buildMainAdjustBody extends StatelessWidget {
+List<adjustmentButton> listAdjustButton = List.generate(
+  listIcon.length,
+      (index) => adjustmentButton(
+    iconAdjust: listIcon[index],
+    labelIcon: listLabelIcon[index],
+    function: () {},
+  ),
+);
+class AdjustTools extends StatelessWidget {
 
   custom_slider controller_slider = Get.put(custom_slider());
-  var selectedItem = (-1).obs;
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: primitives.surface_secondary.value),
-      child: Column(
-        children: [
-          navigationTop(),
-          place_holder(),
-          visualAdjustment(),
-          controller_slider.slider_primary(),
-        ],
+    final controller = Get.put(MainAdjustController());
+    return GetBuilder<MainAdjustController>(
+      builder : (controller) =>  Expanded(
+        flex: 4,
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              visualAdjustment(),
+              controller_slider.slider_primary(),
+            ],
+          ),
+        ),
       ),
     );
   }
   Expanded visualAdjustment() {
     return Expanded(
           child: Container(
-            padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(),
             child: Row(
-              mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-              children: [
-                elementAdjust(0),
-                elementAdjust(1),
-                elementAdjust(2),
-                elementAdjust(3),
-                elementAdjust(4),
-              ],
+              // mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+              children:  List.generate( listAdjustButton.length , (index) => customTextButton(index)),
             )
           ),
         );
   }
-  Widget elementAdjust (index){
-    return Material(
-      type: MaterialType.transparency,
-      //Makes it usable on any background color, thanks @IanSmith
-      child: Obx(() => Ink(
-        decoration: BoxDecoration(
-          border: Border.all(color: selectedItem.value == index ?  primitives.yellow1.value : primitives.border_secondary.value,),
-          color: Colors.transparent,
-          shape: BoxShape.circle,
-        ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(1000.0),
-          splashColor: Colors.transparent,
-          onTap: () {
-            selectedItem.value = index;
-          },
-          child: Padding(
-              padding: EdgeInsets.all(paddingIcon),
-              child: Icon(
-                listAdjustButton.elementAt(index).iconAdjust,
-                size: sizeIcon,
-                color: selectedItem.value == index ?  primitives.yellow1.value : primitives.border_secondary.value,
-              )),
-        ),
-      ),
-      ),);
-  }
+  Widget customTextButton (index) {
+    return Expanded(
+      child: GetX<MainAdjustController>(
+        builder: (controller) {
+          return ElevatedButton(onPressed: () { controller.changeItemIndex(index); },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primitives.surface_secondary.value,
+              foregroundColor: primitives.surface_secondary.value,
+              surfaceTintColor: primitives.surface_secondary.value,
+              padding: EdgeInsets.zero,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(listAdjustButton.elementAt(index).iconAdjust,
+                  size: 30,
+                  color:  controller.selectedItem.value == index ?  primitives.activeIconButton.value : primitives.inactiveIconButton.value,
+                ),
+                SizedBox(height: 10,),
+                Text(listAdjustButton.elementAt(index).labelIcon, style: TextStyle(fontSize: 10,
+                   color:  controller.selectedItem.value == index ?  primitives.activeIconButton.value : primitives.inactiveIconButton.value) ,
+                ),
+                SizedBox(height: 15,),
+              ],
+            ),
 
+          );
+        }
+      ),
+    );
+  }
   Column dotMarkChoose(_val) {
     return Column(
       children: [

@@ -1,23 +1,13 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fox/presentation/main_crop_screen/controller/main_crop_controller.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_placeholder_image_upload.dart';
-
-class main_crop extends StatefulWidget {
-  const main_crop({super.key});
-
-  @override
-  State<main_crop> createState() => _main_cropState();
-}
-Primitives primitives = Get.put(Primitives());
+import '../../widgets/custom_slider.dart';
 
 class LabelAndFunction {
   String label;
   Function function;
-  LabelAndFunction({required this.label, required this.function});
+  LabelAndFunction({required this.label ,required this.function});
 }
 List<LabelAndFunction> buttonRatio = [
   LabelAndFunction(label: 'Original', function: (){}),
@@ -32,89 +22,77 @@ List<LabelAndFunction> buttonRatio = [
   LabelAndFunction(label: '6:19', function: (){}),
   LabelAndFunction(label: '4:5', function: (){}),
 ];
-var activeBtnIndex = 0;
-class _main_cropState extends State<main_crop> {
+
+Primitives primitives = Get.put(Primitives());
+
+class CropTools extends StatefulWidget {
+  const CropTools({super.key});
+
+  @override
+  State<CropTools> createState() => _CropToolsState();
+}
+class _CropToolsState extends State<CropTools> {
+  custom_slider controller_slider = Get.put(custom_slider());
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: buildBody()
-    );
-  }
+    final controller = Get.put(mainCropController());
+    Color iconColor =  primitives.inactiveIconButton.value;
 
-  Container buildBody() {
-    return Container(
-        width: double.infinity,
-        height: double.infinity,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: primitives.surface_secondary.value),
+    return GetBuilder<mainCropController>(
+      builder: (controller) => Expanded(
+        flex: 3,
         child: Column(
           children: [
-            customNavigationTop(),
-            place_holder(),
-            list_aspect_ratio()
-          ],
-        ),
-      );
-  }
-  Widget list_aspect_ratio (){
-    final double textSize = 15;
-
-    return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: buttonRatio.length,
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-        itemBuilder: (BuildContext context, int index) {
-          return TextButton(onPressed: (){
-              setState(() {
-                activeBtnIndex = index;
-              });
-            },
-            child: Text(buttonRatio.elementAt(index).label,
-                style: TextStyle(
-                  color: activeBtnIndex == index ? primitives.yellow1.value : primitives.text_secondary.value,
-                  fontSize: textSize
-                ),
-                ),
-            style: TextButton.styleFrom(
-              foregroundColor: primitives.surface_secondary.value.withOpacity(0),
-            ),
-          );
-        }
-      ),
-    );
-
-  }
-
-  Widget customNavigationTop () {
-    return Container( // navigation menu top
-      width: double.infinity,
-      height: 35,
-      color: primitives.surface_secondary(),
-      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.sync_alt_outlined, color: primitives.surface_icon2(),)
+                  icon: Icon(Icons.rotate_90_degrees_ccw_outlined ,color: iconColor,)
               ),
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.crop_rotate_outlined ,color: primitives.surface_icon2(),)
+                  icon: Icon(Icons.rotate_90_degrees_cw_outlined ,color: iconColor,)
+              ),
+              IconButton(
+                  onPressed: (){},
+                  icon: Icon(Icons.flip_outlined, color: iconColor,)
               ),
             ],
           ),
-        ],
+          list_aspect_ratio(),
+          ],
+        ),
       ),
     );
-
   }
-
-
+  Widget list_aspect_ratio (){
+    final double textSize = 15;
+    return Expanded(
+      child: GetBuilder<mainCropController>(
+        builder: (controller) => ListView.builder(
+          // shrinkWrap: true,
+          itemCount: buttonRatio.length,
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.all(10),
+          itemBuilder: (context, int index) {
+            return TextButton(onPressed: (){
+              controller.updateOnTap(index);
+              },
+              child: Text(buttonRatio.elementAt(index).label,
+                  style: TextStyle(
+                    color: controller.activeBtnIndex == index ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,
+                    fontSize: textSize
+                  ),
+                  ),
+              style: TextButton.styleFrom(
+                foregroundColor: primitives.surface_secondary.value.withOpacity(0),
+              ),
+            );
+          }
+        ),
+      ),
+    );
+  }
 }
