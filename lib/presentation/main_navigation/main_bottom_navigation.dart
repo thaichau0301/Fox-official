@@ -40,7 +40,7 @@ class _mainBottomBarState extends State<mainBottomBar> {
           child: Column(
             children: [
               navigationTop(),
-              place_holder(),
+              PlaceHolderImage(),
               (()  {
                 switch (controller.tabIndex.value) {
                 case 0 : return AdjustTools();
@@ -49,11 +49,6 @@ class _mainBottomBarState extends State<mainBottomBar> {
                 case 3 : return RemoveTools();
                 case 4 : return RemoveBgTools();
                 case 5 : return TextEditTools();
-<<<<<<< HEAD
-                // case 5 : return Expanded(flex: 3, child: Column(children: [],));
-=======
->>>>>>> main
-                case 6 : return DrawTools();
                 case 7 : return InsertSticker();
                 default: return Text('Nothing'); }
               })(),

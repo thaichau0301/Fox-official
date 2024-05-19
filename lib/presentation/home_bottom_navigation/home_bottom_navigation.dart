@@ -5,7 +5,6 @@ import 'package:fox/theme/primitives.dart';
 import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
-import 'package:image_picker/image_picker.dart';
 class homeBottomBar extends StatefulWidget {
   const homeBottomBar({super.key});
 

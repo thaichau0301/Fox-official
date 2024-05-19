@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         locale: Get.deviceLocale,
         fallbackLocale: Locale('en', 'US'),
         // title: 'thaichau0301_s_application1',
-        initialRoute: AppRoutes.initialRoute,
+        initialRoute: AppRoutes.homeBottomNavigation,
         getPages: AppRoutes.pages,
       );
     });

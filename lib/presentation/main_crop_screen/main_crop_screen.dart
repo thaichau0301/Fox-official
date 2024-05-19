@@ -32,7 +32,7 @@ class CropTools extends StatefulWidget {
   State<CropTools> createState() => _CropToolsState();
 }
 class _CropToolsState extends State<CropTools> {
-  custom_slider controller_slider = Get.put(custom_slider());
+  CustomSlider controller_slider = Get.put(CustomSlider());
 
   @override
   Widget build(BuildContext context) {

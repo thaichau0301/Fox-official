@@ -17,7 +17,7 @@ class InsertFilters extends StatefulWidget {
 
 class _InsertFiltersState extends State<InsertFilters> {
   Primitives primitives = Get.put(Primitives());
-  custom_slider controller_slider = Get.put(custom_slider());
+  CustomSlider controller_slider = Get.put(CustomSlider());
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(mainFilterController());
@@ -27,7 +27,7 @@ class _InsertFiltersState extends State<InsertFilters> {
         child: Container(
           child: Column(
             children: [
-              controller_slider.slider_primary(),
+              CustomSlider(),
             ],
           ),
         ),

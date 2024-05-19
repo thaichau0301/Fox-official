@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1059133271280",
+    "project_id": "editapp-50022",
+    "storage_bucket": "editapp-50022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059133271280:android:1654e906a9c2148649a635",
+        "android_client_info": {
+          "package_name": "com.thaichausapplication.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059133271280-h2ucah34jo26hfu7mrle9nvrcm8vm6vo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thaichausapplication.app",
+            "certificate_hash": "0cd4b3e5d171d45bef2a4f23f3326e836e61a477"
+          }
+        },
+        {
+          "client_id": "1059133271280-0ml6e0r0il4b6mud5q936e68kgnnu9rk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp1Im-9Oy9tHP1dzXIxYfGWVFcUuDfd1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059133271280-0ml6e0r0il4b6mud5q936e68kgnnu9rk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1059133271280-0v4p222df9q6424s72tuqqgtb58h08na.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thaichausapplicati"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

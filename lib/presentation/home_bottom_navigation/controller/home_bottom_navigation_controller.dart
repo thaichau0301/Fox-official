@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as img;
 class HomeBottomBarController extends GetxController {
   var tabIndex = 0.obs;
   void changeTab(int index) {
@@ -10,10 +11,12 @@ class HomeBottomBarController extends GetxController {
   }
 
   File? image;
+  var imagePNG;
   Future<void> pickImage() async {
     final image = (await ImagePicker().pickImage(source: ImageSource.gallery));
     final imageTemporary = File(image!.path);
-    this.image = imageTemporary;
+    final bytes = imageTemporary.readAsBytesSync();
+    imagePNG = img.encodePng(img.decodeImage(bytes)!);
     Get.toNamed('/main_navigation');
     update();
   }

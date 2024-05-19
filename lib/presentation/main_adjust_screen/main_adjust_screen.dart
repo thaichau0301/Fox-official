@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fox/presentation/main_adjust_screen/controller/main_adjust_controller.dart';
+import 'package:fox/widgets/custom_placeholder_image_upload.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
 import '../../widgets/custom_slider.dart';
+import '../home_bottom_navigation/controller/home_bottom_navigation_controller.dart';
 
 Primitives primitives = Get.put(Primitives());
 
@@ -32,7 +34,7 @@ List<adjustmentButton> listAdjustButton = List.generate(
 );
 class AdjustTools extends StatelessWidget {
 
-  custom_slider controller_slider = Get.put(custom_slider());
+  final controller_slider = Get.put(CustomSlider());
 
 
   @override
@@ -46,7 +48,7 @@ class AdjustTools extends StatelessWidget {
           child: Column(
             children: [
               visualAdjustment(),
-              controller_slider.slider_primary(),
+              CustomSlider(),
             ],
           ),
         ),
