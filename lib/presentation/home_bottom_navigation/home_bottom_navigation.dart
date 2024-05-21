@@ -5,39 +5,43 @@ import 'package:fox/theme/primitives.dart';
 import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
-class homeBottomBar extends StatefulWidget {
-  const homeBottomBar({super.key});
 
-  @override
-  State<homeBottomBar> createState() => _homeBottomBarState();
-}
+class HomeBottomBar extends GetView<HomeBottomBarController> {
+  const HomeBottomBar({super.key});
 
-class _homeBottomBarState extends State<homeBottomBar> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeBottomBarController());
+    Get.lazyPut(()=>HomeBottomBarController());
+    // controller.resetTabIndex();
     return GetBuilder<HomeBottomBarController>(
-      builder: (context) {
+      init: HomeBottomBarController(),
+      builder: (controller) {
         return Scaffold(
           body: Column(
             children: [
-              (()  {
+              (() {
                 switch (controller.tabIndex.value) {
-                  case 0 : return HomeScreen();
-                  case 1 : return Container();
-                  case 2 : return Expanded(child: UserScreen());
-                  default: return Text(''); }
+                  case 0 :
+                    return HomeScreen();
+                  case 1 :
+                    return Container();
+                  case 2 :
+                    return Expanded(child: UserScreen());
+                  default:
+                    return Text('');
+                }
               })(),
             ],
           ),
-          bottomNavigationBar:buildBottomNavigationBar(),
+          bottomNavigationBar: buildBottomNavigationBar(controller),
         );
       },
     );
+
   }
-  Widget buildBottomNavigationBar() {
+
+  Widget buildBottomNavigationBar(HomeBottomBarController controller) {
     double iconSize = 30;
-    HomeBottomBarController controller = Get.put(HomeBottomBarController());
     Primitives primitives = Get.put(Primitives());
     return Container(
       height: 70,
@@ -50,20 +54,23 @@ class _homeBottomBarState extends State<homeBottomBar> {
           selectedItemColor: primitives.blue1.value,
           unselectedItemColor: Colors.black,
           currentIndex: controller.tabIndex.value,
-          onTap: (index){
+          onTap: (index) {
             controller.changeTab(index);
           },
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home_filled, size: iconSize) ,label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.add_a_photo, size: iconSize) ,label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_filled, size: iconSize), label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline, size: iconSize),
+                label: ''),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person, size: iconSize),
                 label: ''
             ),
           ],
-
         ),
       ),
     );
   }
+
 }

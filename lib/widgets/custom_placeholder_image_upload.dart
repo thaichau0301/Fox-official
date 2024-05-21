@@ -26,6 +26,7 @@ class PlaceHolderImage extends StatelessWidget {
             alignment: Alignment.topCenter,
               children: [ adjustBrightness(sliderController.sliderValue/400),
             Text('${sliderController.sliderValue}', style: TextStyle(fontSize: 30, color: Colors.blue),)])
+
         ),
       ),
     );

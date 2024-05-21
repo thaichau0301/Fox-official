@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
           automaticallyImplyLeading: false,
           title: const Text(
             'FOX',
-            style: TextStyle(fontSize: 30, color: Colors.amber),
+            style: TextStyle(fontSize: 35),
           ),
         ),
         body: Center(
