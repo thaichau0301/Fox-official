@@ -9,6 +9,10 @@ import 'core/utils/size_utils.dart';
 import 'localization/app_localization.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.blue, // Status bar color
+    systemNavigationBarColor: Color(0xFF141414)
+  ));
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) {
@@ -23,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
+
         debugShowCheckedModeBanner: false,
         theme: theme,
         translations: AppLocalization(),

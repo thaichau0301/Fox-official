@@ -1,98 +1,65 @@
+import 'dart:io';
+import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/main_crop_screen/controller/main_crop_controller.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:get/get.dart';
-import '../../theme/primitives.dart';
-import '../../widgets/custom_slider.dart';
+import 'package:path_provider/path_provider.dart';
+import '../main_navigation/controller/main_bottom_navigation_controller.dart';
 
-class LabelAndFunction {
-  String label;
-  Function function;
-  LabelAndFunction({required this.label ,required this.function});
-}
-List<LabelAndFunction> buttonRatio = [
-  LabelAndFunction(label: 'Original', function: (){}),
-  LabelAndFunction(label: 'Freeform', function: (){}),
-  LabelAndFunction(label: 'Square', function: (){}),
-  LabelAndFunction(label: '3:2', function: (){}),
-  LabelAndFunction(label: '4:3', function: (){}),
-  LabelAndFunction(label: '5:4', function: (){}),
-  LabelAndFunction(label: '19:6', function: (){}),
-  LabelAndFunction(label: '2:3', function: (){}),
-  LabelAndFunction(label: '3:4', function: (){}),
-  LabelAndFunction(label: '6:19', function: (){}),
-  LabelAndFunction(label: '4:5', function: (){}),
-];
-
-Primitives primitives = Get.put(Primitives());
-
-class CropTools extends StatefulWidget {
-  const CropTools({super.key});
-
-  @override
-  State<CropTools> createState() => _CropToolsState();
-}
-class _CropToolsState extends State<CropTools> {
-  CustomSlider controller_slider = Get.put(CustomSlider());
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(mainCropController());
-    Color iconColor =  primitives.inactiveIconButton.value;
-
-    return GetBuilder<mainCropController>(
-      builder: (controller) => Expanded(
-        flex: 3,
-        child: Column(
-          children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.rotate_90_degrees_ccw_outlined ,color: iconColor,)
-              ),
-              IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.rotate_90_degrees_cw_outlined ,color: iconColor,)
-              ),
-              IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.flip_outlined, color: iconColor,)
-              ),
-            ],
+class CropTools {
+  var isLoading = false.obs;
+  var hasError = false.obs;
+  final mainController = Get.find<MainBottomNavController>();
+  Future<void> CropImage() async {
+    try {
+      isLoading.value = true;
+      hasError.value = false;
+      CroppedFile? cropImage = await ImageCropper().cropImage(
+        sourcePath: mainController.editedImage.value!.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio5x3,
+          CropAspectRatioPreset.ratio5x4,
+          CropAspectRatioPreset.ratio7x5,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: '' ,
+            toolbarWidgetColor: Colors.black45,
+            statusBarColor: Colors.white12,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
           ),
-          list_aspect_ratio(),
-          ],
-        ),
-      ),
-    );
+        ],
+        compressQuality: 70,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+      // Load image from cache directory
+        try
+        {
+          int lastIndex = mainController.editedImage.value!.path.lastIndexOf('/');
+          final nameImage = mainController.editedImage.value!.path.split('/').last;
+          final newFileImage = mainController.editedImage.value!.path.substring(0, lastIndex) + '/c_' + nameImage;
+          mainController.editedImage.value = await File(cropImage!.path).copy(newFileImage);
+          File(cropImage.path).deleteSync();
+        }
+        catch (e)
+        {
+          print("Error loading image: $e");
+        }
+    }
+    catch(e)
+    {
+      print("Error: $e");
+    }
+    finally
+    {
+      isLoading.value = false;
+    }
   }
-  Widget list_aspect_ratio (){
-    final double textSize = 15;
-    return Expanded(
-      child: GetBuilder<mainCropController>(
-        builder: (controller) => ListView.builder(
-          // shrinkWrap: true,
-          itemCount: buttonRatio.length,
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.all(10),
-          itemBuilder: (context, int index) {
-            return TextButton(onPressed: (){
-              controller.updateOnTap(index);
-              },
-              child: Text(buttonRatio.elementAt(index).label,
-                  style: TextStyle(
-                    color: controller.activeBtnIndex == index ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,
-                    fontSize: textSize
-                  ),
-                  ),
-              style: TextButton.styleFrom(
-                foregroundColor: primitives.surface_secondary.value.withOpacity(0),
-              ),
-            );
-          }
-        ),
-      ),
-    );
-  }
+
 }

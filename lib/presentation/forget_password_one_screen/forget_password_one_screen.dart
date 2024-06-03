@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
-import '../../core/utils/image_constant.dart';
 import '../../core/utils/validation_functions.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/theme_helper.dart';
-import '../../widgets/app_bar/appbar_leading_image.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
-import '../../widgets/custom_image_view.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'controller/forget_password_one_controller.dart'; // ignore_for_file: must_be_immutable
 // ignore_for_file: must_be_immutable

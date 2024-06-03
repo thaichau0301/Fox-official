@@ -53,7 +53,7 @@ class AppRoutes {
     ),
     GetPage(
       name: mainNavigation,
-      page: () => mainBottomBar(),
+      page: () => MainBottomBar(),
       // bindings: [AppNavigationBinding()],
     ),
     GetPage(
