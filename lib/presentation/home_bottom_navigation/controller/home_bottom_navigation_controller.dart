@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
+
 class HomeBottomBarController extends GetxController {
   var tabIndex;
 
@@ -21,15 +22,34 @@ class HomeBottomBarController extends GetxController {
     if(index == 1) pickImage();
     update();
   }
-
-  File? image;
-  var imagePNG;
   Future<void> pickImage() async {
-    final image = (await ImagePicker().pickImage(source: ImageSource.gallery));
-    final imageTemporary = File(image!.path);
-    final bytes = imageTemporary.readAsBytesSync();
-    imagePNG = img.encodePng(img.decodeImage(bytes)!);
-    Get.toNamed('/main_navigation');
-    update();
+    try{
+      // type XFile
+      final imagePicked = (await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 100));
+      File fileImage = File(imagePicked!.path);
+      try
+      {
+        final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+        // if directory null , create new directory
+        if (!appDocumentsDir.existsSync())
+        {
+          appDocumentsDir.createSync(recursive: true);
+        }
+        String newNameImage = fileImage.path.split('/').last; // Extract the file name
+
+        // move file image from cache to app_flutter - ready for editing will get image from here
+        File newFileImage = await fileImage.copy('${appDocumentsDir.path}/$newNameImage');
+        Get.toNamed('/main_navigation',arguments: {'imagePicked' : imagePicked, 'fileImage': newFileImage, 'nameImage' : newNameImage});
+
+      }
+      catch (e)
+      {
+        print('Error move image picked from cache to app_flutter $e');
+      }
+    }
+    catch(e) {
+      changeTab(0);
+      print('Error pick image $e');
+    }
   }
 }

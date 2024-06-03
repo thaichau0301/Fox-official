@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/main_adjust_screen/main_adjust_screen.dart';
 import 'package:get/get.dart';
 
 class tableColorsController extends GetxController {
@@ -7,6 +6,11 @@ class tableColorsController extends GetxController {
   void updateSelected(index) {
     selectedColor.value = index;
     update();
+  }
+  @override
+  void onClose() {
+    print('onClose table colors');
+    super.onClose();
   }
 }
 class tableColors extends StatelessWidget {

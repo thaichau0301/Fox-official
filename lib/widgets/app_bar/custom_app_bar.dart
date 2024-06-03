@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return SafeArea(
       child:  Container(
         width: double.infinity,
-        color: surface,
+        color: Colors.white12,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -50,6 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             GestureDetector(
               onTap: (){showBottomSheet.confirmCancel();} ,
               child: Container(
+                width: 65,
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                 decoration: ShapeDecoration(
                   color: Color(0xFF8E8E92),
@@ -76,6 +77,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
                 child:
                 Container(
+                  width: 65,
                   padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                   decoration: ShapeDecoration(
                     color: Color(0xFFFBBC05),

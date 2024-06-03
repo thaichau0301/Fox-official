@@ -1,37 +1,44 @@
-
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/main_filter_screen/controller/main_filter_controller.dart';
+import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:get/get.dart';
-import '../../theme/primitives.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
+import 'package:photofilters/filters/preset_filters.dart';
+import 'package:photofilters/widgets/photo_filter.dart';
 import '../../widgets/custom_navigation_top.dart';
-import '../../widgets/custom_placeholder_image_upload.dart';
-import '../../widgets/custom_slider.dart';
+import 'package:image/image.dart' as img;
+import 'dart:typed_data';
+import '../main_adjust_screen/controller/main_adjust_controller.dart';
+import 'package:path/path.dart';
 
-class InsertFilters extends StatefulWidget {
-  InsertFilters({super.key});
 
-  @override
-  State<InsertFilters> createState() => _InsertFiltersState();
-}
+class ApplyFilters {
+  final adjustController = Get.put(MainAdjustController());
+  MainBottomNavController mainController = Get.find();
+  Future<void> apply() async {
+    try {
+      File fileImage = File(mainController.editedImage.value!.path);
+      String _filename = basename(mainController.editedImage.value!.path);
+      Uint8List bytes = fileImage.readAsBytesSync();
+      img.Image? _image = img.decodeImage(bytes);
+      Map getImage = await Get.to(() => PhotoFilterSelector(
+                  customAppBar: navigationTop(),
+                  image: _image!,
+                  filters: presetFiltersList,
+                  filename: _filename,
+                  loader: const Center(child: CircularProgressIndicator(strokeWidth: 1.0, )),
+                  fit: BoxFit.contain,
+                  isFilter: true,
+              )
+      );
 
-class _InsertFiltersState extends State<InsertFilters> {
-  Primitives primitives = Get.put(Primitives());
-  CustomSlider controller_slider = Get.put(CustomSlider());
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(mainFilterController());
-    return GetBuilder<mainFilterController>(
-      builder: (controller) => Expanded(
-        flex: 2,
-        child: Container(
-          child: Column(
-            children: [
-              CustomSlider(),
-            ],
-          ),
-        ),
-      ),
-    );
+      if (getImage.containsKey('image_filtered')) {
+        mainController.editedImage.value!.deleteSync(); // delete old file
+        mainController.editedImage.value = getImage['image_filtered'];
+        print('editedImage of main controller ' + mainController.editedImage.value.toString());
+      }
+    }
+    catch (e){
+      print('error adjust image $e');
+    }
   }
 }

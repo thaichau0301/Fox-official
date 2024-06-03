@@ -9,6 +9,7 @@ import 'core/utils/logger.dart';
 import 'core/utils/size_utils.dart';
 import 'firebase_options.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
+
         debugShowCheckedModeBanner: false,
         theme: theme,
         // translations: AppLocalization(),

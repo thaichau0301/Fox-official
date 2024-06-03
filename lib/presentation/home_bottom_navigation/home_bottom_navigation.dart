@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fox/core/app_export.dart';
 import 'package:fox/presentation/user_screen/user_screen.dart';
 import 'package:fox/theme/primitives.dart';
@@ -6,8 +7,10 @@ import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
 
-class HomeBottomBar extends GetView<HomeBottomBarController> {
-  const HomeBottomBar({super.key});
+
+class homeBottomBar extends StatelessWidget {
+  const homeBottomBar({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +36,16 @@ class HomeBottomBar extends GetView<HomeBottomBarController> {
               })(),
             ],
           ),
-          bottomNavigationBar: buildBottomNavigationBar(controller),
+          bottomNavigationBar: buildBottomNavigationBar(),
+
         );
       },
     );
 
   }
 
-  Widget buildBottomNavigationBar(HomeBottomBarController controller) {
+
+  Widget buildBottomNavigationBar() {
     double iconSize = 30;
     Primitives primitives = Get.put(Primitives());
     return Container(
@@ -61,12 +66,9 @@ class HomeBottomBar extends GetView<HomeBottomBarController> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_filled, size: iconSize), label: ''),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline, size: iconSize),
-                label: ''),
+                icon: Icon(Icons.add_a_photo, size: iconSize), label: ''),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person, size: iconSize),
-                label: ''
-            ),
+                icon: Icon(Icons.person, size: iconSize), label: ''),
           ],
         ),
       ),
