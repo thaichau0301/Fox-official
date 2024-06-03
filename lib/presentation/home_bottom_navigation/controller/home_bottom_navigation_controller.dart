@@ -4,7 +4,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HomeBottomBarController extends GetxController {
-  var tabIndex = 0.obs;
+  var tabIndex;
+
+  @override
+  void onInit()
+  {
+    super.onInit();
+    tabIndex = 0.obs;
+  }
+  void resetTabIndex(){
+    tabIndex.value = 0;
+    update();
+  }
+
   void changeTab(int index) {
     tabIndex.value = index;
     if(index == 1) pickImage();

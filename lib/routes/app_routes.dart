@@ -43,8 +43,13 @@ class AppRoutes {
     ),
     GetPage(
       name: homeBottomNavigation,
-      page: () => homeBottomBar(),
-      // bindings: [UserBinding()],
+      page: () => HomeBottomBar(),
+      bindings: [UserBinding()],
+    ),
+    GetPage(
+      name: userScreen,
+      page: () => UserScreen(),
+      bindings: [UserBinding()],
     ),
     GetPage(
       name: appNavigationScreen,

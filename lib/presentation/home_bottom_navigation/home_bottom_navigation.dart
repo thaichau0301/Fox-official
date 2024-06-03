@@ -7,14 +7,18 @@ import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
 
+
 class homeBottomBar extends StatelessWidget {
   const homeBottomBar({super.key});
 
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeBottomBarController());
+    Get.lazyPut(()=>HomeBottomBarController());
+    // controller.resetTabIndex();
     return GetBuilder<HomeBottomBarController>(
-      builder: (context) {
+      init: HomeBottomBarController(),
+      builder: (controller) {
         return Scaffold(
           body: Column(
             children: [
@@ -33,14 +37,16 @@ class homeBottomBar extends StatelessWidget {
             ],
           ),
           bottomNavigationBar: buildBottomNavigationBar(),
+
         );
       },
     );
+
   }
+
 
   Widget buildBottomNavigationBar() {
     double iconSize = 30;
-    HomeBottomBarController controller = Get.put(HomeBottomBarController());
     Primitives primitives = Get.put(Primitives());
     return Container(
       height: 70,
@@ -68,4 +74,5 @@ class homeBottomBar extends StatelessWidget {
       ),
     );
   }
+
 }

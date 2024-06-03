@@ -44,15 +44,9 @@ class ForgetPasswordOneScreen extends GetWidget<ForgetPasswordOneController> {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      "msg_what_s_your_email".tr,
-                      style: theme.textTheme.titleLarge,
-                    ),
+                    Text( "What's your email?", style: TextStyle(fontSize: 20) ,),
                     SizedBox(height: 9.v),
-                    Text(
-                      "msg_we_ll_email_you".tr,
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    Text( "We'll email you a verification code there", style: TextStyle(fontSize: 12) ,),
                     SizedBox(height: 25.v),
                     CustomTextFormField(
                       controller: controller.emailController,
@@ -76,7 +70,7 @@ class ForgetPasswordOneScreen extends GetWidget<ForgetPasswordOneController> {
                     ),
                     SizedBox(height: 16.v),
                     CustomElevatedButton(
-                      text: "lbl_send_code".tr,
+                      text: 'Send code',
                       onPressed: () {
                         onTapSendcode();
                       },

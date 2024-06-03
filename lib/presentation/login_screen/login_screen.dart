@@ -3,142 +3,99 @@ import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/image_constant.dart';
 import '../../domain/facebookauth/facebook_auth_helper.dart';
+import '../../domain/facebookauth/flutter_facebook_auth_login.dart';
 import '../../domain/googleauth/google_auth_helper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_decoration.dart';
 import '../../theme/theme_helper.dart';
 import '../../widgets/custom_image_view.dart';
-import '../../widgets/custom_outlined_button.dart';
 import 'controller/login_controller.dart'; // ignore_for_file: must_be_immutable
-
-class LoginScreen extends GetWidget<LoginController> {
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({Key? key})
       : super(
           key: key,
         );
 
+
   @override
   Widget build(BuildContext context) {
-    double sizeText = 16;
+    final controller = Get.find<LoginController>();
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Spacer(
-              flex: 1,
-            ),
-            _buildLoginColumnIconFox(),
-            Spacer(
-              flex: 2,
-            ),
-            Column(
-              children: [
-                CustomOutlinedButton(
-                  text: 'Continue with Goolge',
-                  buttonTextStyle: TextStyle(fontSize: sizeText, color: Colors.black),
-                  margin: EdgeInsets.symmetric(horizontal: 23.h),
-                  leftIcon: Container(
-                    margin: EdgeInsets.only(right: 30.h),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.imgGoogle1,
-                      height: 30.adaptSize,
-                      width: 30.adaptSize,
-                    ),
-                  ),
-                  onPressed: () {
-                    onTapContinuewith();
-                  },
+        body: Center(
+          child: Column(
+            children: [
+              Spacer(
+                flex: 1,
+              ),
+              _buildLoginColumnIconFox(),
+              Spacer(
+                flex: 3,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    customButtonSignIn(controller.SignInWithGoogle, FontAwesomeIcons.google,
+                        'Continue with Google', Colors.white),
+                    SizedBox(height: 16,),
+                    customButtonSignIn(controller.SignInWithFacebook, FontAwesomeIcons.facebook,
+                        'Continue with Facebook', Colors.blue),
+                    SizedBox(height: 16,),
+                  ],
                 ),
-                SizedBox(height: 16),
-                CustomOutlinedButton(
-                  text: 'Continue with Facebook',
-                  buttonTextStyle: TextStyle(fontSize: sizeText, color: Colors.black),
-                  margin: EdgeInsets.symmetric(horizontal: 23.h),
-                  leftIcon: Container(
-                    margin: EdgeInsets.only(right: 30.h),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.imgFacebook2,
-                      height: 30.adaptSize,
-                      width: 30.adaptSize,
-                    ),
-                  ),
-                  onPressed: () {
-                    onTapContinuewith1();
-                  },
-                ),
-                SizedBox(height: 16),
-                CustomOutlinedButton(
-                  text: 'Continue with Email',
-                  buttonTextStyle: TextStyle(fontSize: sizeText, color: Colors.black),
-                  margin: EdgeInsets.symmetric(horizontal: 23.h),
-                  leftIcon: Container(
-                    margin: EdgeInsets.only(right: 30.h),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.imgImage6,
-                      height: 30.adaptSize,
-                      width: 30.adaptSize,
-                    ),
-                  ),
-                  onPressed: () {
-                    onTapContinuewith2();
-                  },
-                ),
-              ],
-            ),
-            Spacer(
-              flex: 3,
-            )
-          ],
+              ),
+              Spacer(
+                flex: 3,
+              )
+            ],
+          ),
         ),
       ),
     );
   }
-
+  Widget customButtonSignIn(VoidCallback func, icon, label, customColor) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: func,
+        icon: Padding(
+          padding: EdgeInsets.only(right: 50),
+            child: Icon(icon, color: Colors.black,)
+        ),
+        label: Text(label, style: TextStyle(fontSize: 16, color: Colors.black), textAlign: TextAlign.center ,),
+            style: ElevatedButton.styleFrom(
+              alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+            backgroundColor: customColor,
+            overlayColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+              side: BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+            ),
+          ),
+      ),
+    );
+  }
   /// Section Widget
   Widget _buildLoginColumnIconFox() {
     return Column(
       children: [
-        CustomImageView(
-          imagePath: ImageConstant.imgIconFox,
-          height: 172.v,
-          width: 180.h,
+        Container(
+          height: 200,
+          width: 200,
+          child: CustomImageView(
+            fit: BoxFit.contain,
+            imagePath: ImageConstant.imgIconFox,
+          ),
         ),
-        SizedBox(height: 12.v),
         Container(
           decoration: AppDecoration.outlineBlack,
-          child: Text(
-            "lbl_fox".tr,
-            style: theme.textTheme.displayLarge,
-          ),
+          child: Text('FOX', style: TextStyle(fontSize: 60,),)
         )
       ],
-    );
-  }
-
-  onTapContinuewith() async {
-    await GoogleAuthHelper().googleSignInProcess().then((googleUser) {
-      if (googleUser != null) {
-      } else {
-        Get.snackbar('Error', 'user data is empty');
-      }
-    }).catchError((onError) {
-      Get.snackbar('Error', onError.toString());
-    });
-  }
-
-  onTapContinuewith1() async {
-    await FacebookAuthHelper()
-        .facebookSignInProcess()
-        .then((facebookUser) {})
-        .catchError((onError) {
-      Get.snackbar('Error', onError.toString());
-    });
-  }
-
-  /// Navigates to the forgetPasswordOneScreen when the action is triggered.
-  onTapContinuewith2() {
-    Get.toNamed(
-      AppRoutes.forgetPasswordOneScreen,
     );
   }
 }
