@@ -7,12 +7,10 @@ import 'package:photofilters/widgets/photo_filter.dart';
 import '../../widgets/custom_navigation_top.dart';
 import 'package:image/image.dart' as img;
 import 'dart:typed_data';
-import '../main_adjust_screen/controller/main_adjust_controller.dart';
 import 'package:path/path.dart';
 
 
 class ApplyFilters {
-  final adjustController = Get.put(MainAdjustController());
   MainBottomNavController mainController = Get.find();
   Future<void> apply() async {
     try {
@@ -33,8 +31,10 @@ class ApplyFilters {
 
       if (getImage.containsKey('image_filtered')) {
         mainController.editedImage.value!.deleteSync(); // delete old file
-        mainController.editedImage.value = getImage['image_filtered'];
-        print('editedImage of main controller ' + mainController.editedImage.value.toString());
+        // mainController.editedImage.value = getImage['image_filtered'];
+        mainController.updateEditedImage(getImage['image_filtered']);
+        print('start delay 500ms');
+        Future.delayed(Duration(milliseconds: 500));
       }
     }
     catch (e){

@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import '../main_navigation/controller/main_bottom_navigation_controller.dart';
-
+import 'package:path/path.dart';
 class CropTools {
   var isLoading = false.obs;
   var hasError = false.obs;
@@ -14,6 +12,7 @@ class CropTools {
     try {
       isLoading.value = true;
       hasError.value = false;
+      print('sourcePath for crop image' + mainController.editedImage.value!.path);
       CroppedFile? cropImage = await ImageCropper().cropImage(
         sourcePath: mainController.editedImage.value!.path,
         aspectRatioPresets: [
@@ -35,26 +34,31 @@ class CropTools {
             lockAspectRatio: false,
           ),
         ],
-        compressQuality: 70,
+        compressQuality: 100,
         compressFormat: ImageCompressFormat.jpg,
       );
-      // Load image from cache directory
         try
         {
+          // default name file of crop so long, i change it to c_originalNameImage
           int lastIndex = mainController.editedImage.value!.path.lastIndexOf('/');
-          final nameImage = mainController.editedImage.value!.path.split('/').last;
+          final nameImage = basename(mainController.editedImage.value!.path);
+          // create new file name for assign crop image, fix error not update UI in main
           final newFileImage = mainController.editedImage.value!.path.substring(0, lastIndex) + '/c_' + nameImage;
-          mainController.editedImage.value = await File(cropImage!.path).copy(newFileImage);
-          File(cropImage.path).deleteSync();
+          // delete old file image
+          mainController.editedImage.value!.deleteSync();
+          // copy new image was cropped to that location of old file
+          mainController.updateEditedImage(File(cropImage!.path).copySync(newFileImage));
+          // delete file cropped image  was create by package , sync to fix error not find file
+          Future.delayed(Duration(milliseconds: 100),() {File(cropImage.path).deleteSync(); });
         }
         catch (e)
         {
-          print("Error loading image: $e");
+          print("Error update crop image: $e");
         }
     }
     catch(e)
     {
-      print("Error: $e");
+      print("Error crop image: $e");
     }
     finally
     {

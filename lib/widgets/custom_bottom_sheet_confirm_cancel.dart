@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class bottomSheetConfirm extends GetxController{
+class bottomSheetConfirm{
   void confirmCancel() {
     final double paddingVertical = 12;
     Get.bottomSheet(
@@ -43,7 +43,7 @@ class bottomSheetConfirm extends GetxController{
                       ),
                     ),
                     GestureDetector(
-                      onTap: (){ Get.toNamed('/home_screen');} ,
+                      onTap: (){ Get.toNamed('/home_bottom_navigation');} ,
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.center,
@@ -67,7 +67,7 @@ class bottomSheetConfirm extends GetxController{
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: (){
-                  Get.toNamed('/home_bottom_nav_bar');
+                  Get.back();
                   } ,
                 child: Container(
                   width: double.infinity,
@@ -96,4 +96,5 @@ class bottomSheetConfirm extends GetxController{
         )
     );
   }
+
 }

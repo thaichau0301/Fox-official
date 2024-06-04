@@ -1,74 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fox/core/app_export.dart';
 import 'package:fox/presentation/user_screen/user_screen.dart';
-import 'package:fox/theme/primitives.dart';
 import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-class homeBottomBar extends StatelessWidget {
-  const homeBottomBar({super.key});
 
-
+class HomeBottomBar extends StatelessWidget {
+  const HomeBottomBar({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(()=>HomeBottomBarController());
-    // controller.resetTabIndex();
-    return GetBuilder<HomeBottomBarController>(
-      init: HomeBottomBarController(),
-      builder: (controller) {
-        return Scaffold(
-          body: Column(
-            children: [
-              (() {
-                switch (controller.tabIndex.value) {
-                  case 0 :
-                    return HomeScreen();
-                  case 1 :
-                    return Container();
-                  case 2 :
-                    return Expanded(child: UserScreen());
-                  default:
-                    return Text('');
-                }
-              })(),
-            ],
+
+    final controller = Get.put(HomeBottomBarController());
+
+    return Obx(() => Scaffold(
+          body: Center(
+            child:
+              IndexedStack(
+                index: controller.tabIndex.value,
+                children: [
+                  HomeScreen(),
+                  Container(),
+                  UserScreen()
+                ],
+              )
           ),
           bottomNavigationBar: buildBottomNavigationBar(),
-
-        );
-      },
-    );
-
+        ));
   }
 
 
   Widget buildBottomNavigationBar() {
-    double iconSize = 30;
-    Primitives primitives = Get.put(Primitives());
+    final controller = Get.find<HomeBottomBarController>();
+    double iconSize = 20;
+
     return Container(
-      height: 70,
+      height: 80,
       child: Theme(
         data: theme.copyWith(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(
-          selectedItemColor: primitives.blue1.value,
+          selectedItemColor: Colors.blueAccent.shade700,
           unselectedItemColor: Colors.black,
           currentIndex: controller.tabIndex.value,
-          onTap: (index) {
+          onTap: (int index) {
             controller.changeTab(index);
           },
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled, size: iconSize), label: ''),
+                icon: FaIcon(FontAwesomeIcons.house, size: iconSize,), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_a_photo, size: iconSize), label: ''),
+                icon:  FaIcon(FontAwesomeIcons.circlePlus, size: iconSize + 20, color: Colors.black26,) ,label: ''),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person, size: iconSize), label: ''),
+                icon: FaIcon(FontAwesomeIcons.solidUser, size: iconSize,),  label: 'User'),
           ],
         ),
       ),

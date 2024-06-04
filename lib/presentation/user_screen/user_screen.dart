@@ -12,72 +12,73 @@ class UserScreen extends GetWidget<UserController> {
 
   @override
   Widget build(BuildContext context) {
-
     final primitives = Get.put(Primitives());
     final userController = Get.find<UserController>();
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.gray100,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Spacer(flex: 1,),
-            Padding(
+    return Scaffold(
+      backgroundColor: appTheme.gray100,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Spacer(
+            flex: 1,
+          ),
+          Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Obx(() =>Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundColor: Colors.black12,
-                    child: userController.photoUrl.value == ''
-                        ? Icon(Icons.person, size: 50)
-                        : Image.network(userController.photoUrl.value, fit: BoxFit.fill,)
-                  ),
-                  SizedBox( width: 10,),
-                  TextButton(
+              child: Obx(
+                () => Row(
+                  children: [
+                    CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.black12,
+                        child: userController.photoUrl.value == ''
+                            ? Icon(Icons.person, size: 50)
+                            : Image.network(
+                                userController.photoUrl.value,
+                                fit: BoxFit.fill,
+                              )
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    TextButton(
                       onPressed: () {
-                        if(userController.email.value == '') {
+                        if (userController.email.value == '') {
                           Get.toNamed('/initialRoute');
-                        };
+                        }
                       },
-                    style: TextButton.styleFrom(overlayColor: Colors.transparent),
-                      child: Text(
-                        userController.email.value == '' ? 'Login' : userController.email.value,
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                      )
-                ],
-              ),
-            )),
-            SizedBox(height: 30,),
-            Padding(
-                padding: EdgeInsets.only(left: primitives.spacing_lg),
-                child: Text('Log out', style: TextStyle(fontSize: primitives.font_sm,))),
-            SizedBox(height: 10,),
-            TextButton(
-              onPressed: ()  {
-                dialogConfirm('Do you wish to log out?', 'Log out', userController.SignOutUser);
-              },
-              style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(),
-                  alignment: Alignment.centerLeft,
-                  overlayColor: Colors.transparent,
-                  padding: EdgeInsets.only(left: primitives.spacing_lg)
-
-              ),
-              child: Text('Log out', style: TextStyle(
-                  fontSize: primitives.font_lg, color: Colors.black)),
-            ),
-            SizedBox(height: 20,),
-            Padding(
-                padding: EdgeInsets.only(left: primitives.spacing_lg),
-                child: Text('Delete account', style: TextStyle(fontSize: primitives.font_sm))),
-          SizedBox(height: 10,),
+                      style: TextButton.styleFrom(
+                          overlayColor: Colors.transparent),
+                          child: Text(
+                            userController.email.value == ''
+                              ? 'Login'
+                              : userController.email.value,
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              )
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Padding(
+              padding: EdgeInsets.only(left: primitives.spacing_lg),
+              child: Text(
+                  'Log out',
+                  style: TextStyle(
+                    fontSize: primitives.font_sm,
+                  )
+              )
+          ),
+          SizedBox(
+            height: 10,
+          ),
           TextButton(
-            onPressed: ()  {
-              dialogConfirm('Do you wish to delete account?', 'Delete', userController.DeleteAccount );
+            onPressed: () {
+              dialogConfirm('Do you wish to log out?', 'Log out',
+                  userController.SignOutUser);
             },
             style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -85,22 +86,59 @@ class UserScreen extends GetWidget<UserController> {
                 alignment: Alignment.centerLeft,
                 overlayColor: Colors.transparent,
                 padding: EdgeInsets.only(left: primitives.spacing_lg)
-
             ),
-            child: Text('Delete account', style: TextStyle(
-                fontSize: primitives.font_lg, color: Colors.black)),
+                child: Text(
+                    'Log out',
+                    style: TextStyle(
+                        fontSize: primitives.font_lg, color: Colors.black)
+                ),
           ),
-          Spacer(flex: 10,),
-          ],
-        ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+              padding: EdgeInsets.only(left: primitives.spacing_lg),
+              child: Text(
+                  'Delete account',
+                  style: TextStyle(fontSize: primitives.font_sm)
+              )
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextButton(
+            onPressed: () {
+              dialogConfirm('Do you wish to delete account?', 'Delete',
+                  userController.DeleteAccount);
+            },
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(),
+                alignment: Alignment.centerLeft,
+                overlayColor: Colors.transparent,
+                padding: EdgeInsets.only(left: primitives.spacing_lg)
+                ),
+                child: Text(
+                    'Delete account',
+                    style: TextStyle(fontSize: primitives.font_lg, color: Colors.black)
+                ),
+          ),
+          Spacer(
+            flex: 10,
+          ),
+        ],
       ),
     );
   }
-  void dialogConfirm(String content, String confirmText,  Future<void> func()) {
+
+  void dialogConfirm(String content, String confirmText, Future<void> func()) {
     Get.defaultDialog(
       title: '',
       titlePadding: EdgeInsets.zero,
-      content: Text(content, style: TextStyle(fontSize: 13),),
+      content: Text(
+        content,
+        style: TextStyle(fontSize: 13),
+      ),
       buttonColor: Colors.white,
       confirm: TextButton(
           onPressed: () {
@@ -108,23 +146,22 @@ class UserScreen extends GetWidget<UserController> {
                 result: true); // Đóng dialog ngay lập tức khi nhấn nút xác nhận
             Future.delayed(Duration(microseconds: 100), () async {
               await func(); // Chạy func() trong microtask
-            });
+            }
+            );
           },
-          child: Text(confirmText, style: TextStyle(color: Colors.blue, fontSize: 15),)),
+          child: Text(
+            confirmText,
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          )),
       cancel: TextButton(
-          onPressed: (){Get.back(result: false);},
-          child: Text('Cancel', style: TextStyle(color: Colors.grey, fontSize: 15),)),
-    ).then((value) {
-      if (value != null && value) {
-        // User confirmed
-        // Add your logic here
-        Get.snackbar('Success', 'Operation confirmed');
-      } else {
-        // User canceled
-        // Add your logic here
-        Get.snackbar('Canceled', 'Operation canceled');
-      }
-    });
+          onPressed: () {
+            Get.back(result: false);
+          },
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Colors.grey, fontSize: 15),
+          )
+      ),
+    );
   }
 }
-

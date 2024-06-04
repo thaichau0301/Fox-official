@@ -11,20 +11,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 5,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'FOX',
-            style: TextStyle(fontSize: 35),
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          'FOX',
+          style: TextStyle(fontSize: 35),
         ),
-        body: Center(
-          child: Text('Home', style: TextStyle(fontSize: 40),),
-        ),
+      ),
+      body: Center(
+        child: Text('Home', style: TextStyle(fontSize: 40),),
       ),
     );
   }

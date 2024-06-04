@@ -1,22 +1,11 @@
 import 'dart:io';
+import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HomeBottomBarController extends GetxController {
-  var tabIndex;
-
-  @override
-  void onInit()
-  {
-    super.onInit();
-    tabIndex = 0.obs;
-  }
-  void resetTabIndex(){
-    tabIndex.value = 0;
-    update();
-  }
-
+  RxInt tabIndex = 0.obs;
   void changeTab(int index) {
     tabIndex.value = index;
     if(index == 1) pickImage();
@@ -38,9 +27,9 @@ class HomeBottomBarController extends GetxController {
         String newNameImage = fileImage.path.split('/').last; // Extract the file name
 
         // move file image from cache to app_flutter - ready for editing will get image from here
-        File newFileImage = await fileImage.copy('${appDocumentsDir.path}/$newNameImage');
-        Get.toNamed('/main_navigation',arguments: {'imagePicked' : imagePicked, 'fileImage': newFileImage, 'nameImage' : newNameImage});
-
+        File newFileImage = await fileImage.copySync('${appDocumentsDir.path}/$newNameImage');
+        Get.delete<MainBottomNavController>(force: true);
+        Get.toNamed('/main_navigation',arguments: {'fileImage': newFileImage, 'nameImage' : newNameImage});
       }
       catch (e)
       {

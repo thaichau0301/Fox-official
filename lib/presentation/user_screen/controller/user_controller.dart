@@ -53,6 +53,9 @@ class UserController extends GetxController {
       }
       await FirebaseAuth.instance.signOut();
     }
+    else {
+      Get.snackbar('Failure', 'You can not log out');
+    }
   }
   Future<void> DeleteAccount() async {
     if (firebaseUser != null)
@@ -69,6 +72,9 @@ class UserController extends GetxController {
         }
       }
       await firebaseUser!.delete();
+    }
+    else {
+      Get.snackbar('Failure', 'You can not delete account');
     }
   }
 }

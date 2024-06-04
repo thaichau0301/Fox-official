@@ -43,9 +43,14 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                               AppRoutes.forgetPasswordOneScreen),
                         ),
                         _buildScreenTitle(
-                          screenTitle: "lbl_user".tr,
+                          screenTitle: "Home",
                           onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.userScreen),
+                              onTapScreenTitle(AppRoutes.homeBottomNavigation),
+                        ),
+                        _buildScreenTitle(
+                          screenTitle: "Main",
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.mainNavigation),
                         )
                       ],
                     ),

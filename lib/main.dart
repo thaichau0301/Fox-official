@@ -28,14 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
-
         debugShowCheckedModeBanner: false,
         theme: theme,
-        // translations: AppLocalization(),
-        // locale: Get.deviceLocale,
-        // fallbackLocale: Locale('en', 'US'),
-        // title: 'thaichau0301_s_application1',
-        initialRoute: AppRoutes.initialRoute,
+        initialRoute: AppRoutes.appNavigationScreen,
         getPages: AppRoutes.pages,
       );
     });

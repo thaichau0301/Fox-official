@@ -110,8 +110,6 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
     return Scaffold(
       backgroundColor: Colors.black45,
       appBar: AppBar(
-        // title: widget.title,
-        // backgroundColor: widget.appBarColor,
         iconTheme: IconThemeData(color: Color(0xFF97979D),),
         centerTitle: true,
         title: Text('Filters', style: TextStyle(color : Color(0xFF97979D) ),),
@@ -141,19 +139,22 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.compare_outlined),
-                        color: Color(0xFF97979D),
-                        highlightColor: Colors.transparent,
-                      )
-                    ],
-                  )),
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.compare_outlined),
+                          color: Color(0xFF97979D),
+                          highlightColor: Colors.transparent,
+                        )
+                                            ],
+                                          ),
+                      )),
                   Expanded(
-                    flex: 4,
+                    flex: 5,
                     child:  _buildFilteredImage(
                       _filter,
                       image,
@@ -162,37 +163,37 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
                   ),
                   Visibility(
                     visible: showFilter,
-                    child: Flexible(
-                      child: Container(
-                        color: Colors.white12,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: widget.filters.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    _buildFilterThumbnail(
-                                        widget.filters[index], image, filename),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Text(
-                                      widget.filters[index].name,
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
-                                ),
+                    child: Container(
+                      color: Colors.white12,
+                      height: 150,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.filters.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildFilterThumbnail(
+                                      widget.filters[index], image, filename),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    widget.filters[index].name,
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
                               ),
-                              onTap: () => setState(() {
-                                _filter = widget.filters[index];
-                              }),
-                            );
-                          },
-                        ),
+                            ),
+                            onTap: () => setState(() {
+                              _filter = widget.filters[index];
+                            }),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -257,6 +258,7 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
     final path = await _localPath;
     // return File('$path/filtered_${_filter?.name ?? "_"}_$filename');
     return File('$path/f_$filename');
+    // return File('$path/edit.jpg');
   }
 
   Future<File> saveFilteredImage() async {

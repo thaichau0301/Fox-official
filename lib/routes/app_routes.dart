@@ -21,8 +21,6 @@ class AppRoutes {
   static const String appNavigationScreen = '/app_navigation_screen';
   static const String initialRoute = '/initialRoute';
   static const String homeBottomNavigation = '/home_bottom_navigation';
-  static const String homeScreen = '/home_screen';
-  static const String userScreen = '/user_screen';
   static const String mainNavigation = '/main_navigation';
 
   static List<GetPage> pages = [
@@ -44,11 +42,6 @@ class AppRoutes {
     GetPage(
       name: homeBottomNavigation,
       page: () => HomeBottomBar(),
-      bindings: [UserBinding()],
-    ),
-    GetPage(
-      name: userScreen,
-      page: () => UserScreen(),
       bindings: [UserBinding()],
     ),
     GetPage(
