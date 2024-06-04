@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fox/core/utils/size_utils.dart';
 import '../../core/app_export.dart';
 import '../../core/utils/image_constant.dart';
-import '../../domain/facebookauth/facebook_auth_helper.dart';
-import '../../domain/facebookauth/flutter_facebook_auth_login.dart';
-import '../../domain/googleauth/google_auth_helper.dart';
-import 'package:firebase_core/firebase_core.dart';
-import '../../routes/app_routes.dart';
 import '../../theme/app_decoration.dart';
-import '../../theme/theme_helper.dart';
 import '../../widgets/custom_image_view.dart';
 import 'controller/login_controller.dart'; // ignore_for_file: must_be_immutable
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
