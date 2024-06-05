@@ -8,7 +8,6 @@ import 'package:fox/domain/facebookauth/flutter_facebook_auth_login.dart';
 /// This class manages the state of the LoginScreen, including the
 /// current loginModelObj
 class LoginController extends GetxController {
-
   SignInWithGoogle() async {
     await GoogleAuthHelper().googleSignInProcess().then((googleUser) {
       if (googleUser != null) {
