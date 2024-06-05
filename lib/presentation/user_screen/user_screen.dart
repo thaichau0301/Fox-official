@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../theme/theme_helper.dart';
 import 'controller/user_controller.dart'; // ignore_for_file: must_be_immutable
-import 'package:fox/theme/primitives.dart';
 
 class UserScreen extends GetWidget<UserController> {
   const UserScreen({Key? key})
@@ -12,7 +11,6 @@ class UserScreen extends GetWidget<UserController> {
 
   @override
   Widget build(BuildContext context) {
-    final primitives = Get.put(Primitives());
     final userController = Get.find<UserController>();
     return Scaffold(
       backgroundColor: appTheme.gray100,
@@ -20,7 +18,7 @@ class UserScreen extends GetWidget<UserController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Spacer(
+          const Spacer(
             flex: 1,
           ),
           Padding(
@@ -38,7 +36,7 @@ class UserScreen extends GetWidget<UserController> {
                                 fit: BoxFit.fill,
                               )
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     TextButton(
@@ -60,19 +58,19 @@ class UserScreen extends GetWidget<UserController> {
                 ),
               )
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Padding(
-              padding: EdgeInsets.only(left: primitives.spacing_lg),
-              child: Text(
+              padding: EdgeInsets.only(left: 16),
+              child: const Text(
                   'Log out',
                   style: TextStyle(
-                    fontSize: primitives.font_sm,
+                    fontSize: 12,
                   )
               )
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextButton(
@@ -85,25 +83,25 @@ class UserScreen extends GetWidget<UserController> {
                 shape: RoundedRectangleBorder(),
                 alignment: Alignment.centerLeft,
                 overlayColor: Colors.transparent,
-                padding: EdgeInsets.only(left: primitives.spacing_lg)
+                padding: EdgeInsets.only(left: 16)
             ),
-                child: Text(
+                child: const Text(
                     'Log out',
                     style: TextStyle(
-                        fontSize: primitives.font_lg, color: Colors.black)
+                        fontSize: 16, color: Colors.black)
                 ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
-              padding: EdgeInsets.only(left: primitives.spacing_lg),
-              child: Text(
+              padding: EdgeInsets.only(left: 16),
+              child: const Text(
                   'Delete account',
-                  style: TextStyle(fontSize: primitives.font_sm)
+                  style: TextStyle(fontSize: 12)
               )
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextButton(
@@ -116,14 +114,14 @@ class UserScreen extends GetWidget<UserController> {
                 shape: RoundedRectangleBorder(),
                 alignment: Alignment.centerLeft,
                 overlayColor: Colors.transparent,
-                padding: EdgeInsets.only(left: primitives.spacing_lg)
+                padding: EdgeInsets.only(left: 16)
                 ),
-                child: Text(
+                child: const Text(
                     'Delete account',
-                    style: TextStyle(fontSize: primitives.font_lg, color: Colors.black)
+                    style: TextStyle(fontSize: 16, color: Colors.black)
                 ),
           ),
-          Spacer(
+          const Spacer(
             flex: 10,
           ),
         ],
@@ -157,7 +155,7 @@ class UserScreen extends GetWidget<UserController> {
           onPressed: () {
             Get.back(result: false);
           },
-          child: Text(
+          child: const Text(
             'Cancel',
             style: TextStyle(color: Colors.grey, fontSize: 15),
           )

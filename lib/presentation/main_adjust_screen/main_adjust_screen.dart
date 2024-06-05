@@ -30,7 +30,7 @@ class AdjustTools extends StatelessWidget {
           ],
         ),
         body: Container(
-          color: primitives.surface_secondary.value,
+          color: primitives.surface_secondary,
           child: Obx(() => Column(
               children: [
                 Expanded(
@@ -82,7 +82,7 @@ class AdjustTools extends StatelessWidget {
     }
     return Obx(() => ElevatedButton(onPressed: () { controller.changeItemIndex(index); },
             style: ElevatedButton.styleFrom(
-              backgroundColor: primitives.surface_secondary.value,
+              backgroundColor: primitives.surface_secondary,
               overlayColor: Colors.transparent,
               padding: EdgeInsets.zero,
             ),

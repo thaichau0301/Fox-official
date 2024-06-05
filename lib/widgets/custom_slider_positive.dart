@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/main_adjust_screen/main_adjust_screen.dart';
 import 'package:get/get.dart';
 import 'package:fox/theme/primitives.dart';
 class sliderController extends GetxController {
@@ -26,8 +25,8 @@ class CustomSliderPositive extends StatelessWidget {
         overlayShape: SliderComponentShape.noOverlay
       ),
       child: Slider(
-        activeColor: primitives.active.value,
-        inactiveColor: primitives.inactive.value,
+        activeColor: primitives.active,
+        inactiveColor: primitives.inactive,
         value: controller.sliderValue.value,
         onChanged: (newValue) {
           controller.sliderValue.value = newValue;

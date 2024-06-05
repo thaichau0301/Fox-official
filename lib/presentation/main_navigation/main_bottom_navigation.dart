@@ -5,14 +5,16 @@ import '../../theme/primitives.dart';
 import '../../widgets/custom_bottom_sheet_confirm_cancel.dart';
 import 'controller/main_bottom_navigation_controller.dart';
 
-Primitives primitives = Get.put(Primitives());
-class MainBottomBar extends GetView<MainBottomNavController> {
+Primitives primitives = new Primitives();
+
+class MainBottomBar extends StatelessWidget {
   const MainBottomBar({super.key});
   @override
   Widget build(BuildContext context) {
     //delete a particular instance of controller, force = true to reset controller
     // Get.delete<MainBottomNavController>(force: true);
     final controller = Get.put(MainBottomNavController());
+    
     return Scaffold(
 
       backgroundColor: Colors.white12,
@@ -54,7 +56,7 @@ class MainBottomBar extends GetView<MainBottomNavController> {
                     PopupMenuItem(
                       child: TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           'Save to camera roll',
                           style: TextStyle(color: Colors.white, fontSize: 13),
                         ),
@@ -64,7 +66,7 @@ class MainBottomBar extends GetView<MainBottomNavController> {
                     PopupMenuItem(
                       child: TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           'Save to studio',
                           style: TextStyle(color: Colors.white, fontSize: 13),
                         ),
@@ -74,7 +76,7 @@ class MainBottomBar extends GetView<MainBottomNavController> {
                   ],
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.file_upload_outlined,
                 size: 30,
               ),
@@ -106,10 +108,10 @@ class MainBottomBar extends GetView<MainBottomNavController> {
       'Draw',
       'Stickers',
     ];
-    final controller = Get.put(MainBottomNavController());
+    final controller = Get.find<MainBottomNavController>();
     return Container(
       height: 90,
-      color: primitives.surface_secondary.value,
+      color: primitives.surface_secondary,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: listBottomIcon.length,
@@ -124,15 +126,15 @@ class MainBottomBar extends GetView<MainBottomNavController> {
                     Expanded(
                       child: Icon(listBottomIcon[index],
                           size: 30,
-                          color: primitives.activeIconBottomBar.value
+                          color: Colors.white
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Expanded(
                       child: Text(
                         listBottomLabel[index], style: TextStyle(
-                          color: primitives.activeIconBottomBar.value,
-                          fontSize: primitives.font_sm
+                          color: Colors.white,
+                          fontSize: 12
                       ),),
                     )
                   ],

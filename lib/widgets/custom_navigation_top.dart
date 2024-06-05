@@ -10,7 +10,7 @@ class navigationTop extends StatelessWidget {
     return Container( // navigation menu top
       width: double.infinity,
       height: 35,
-      color: primitives.surface_secondary(),
+      color: primitives.surface_secondary,
       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -21,11 +21,11 @@ class navigationTop extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.undo_outlined, color: primitives.surface_icon1(),)
+                  icon: Icon(Icons.undo_outlined, color: primitives.surface_icon1,)
               ),
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.redo_outlined ,color: primitives.surface_icon1(),)
+                  icon: Icon(Icons.redo_outlined ,color: primitives.surface_icon1,)
               ),
             ],
           ),
@@ -33,11 +33,11 @@ class navigationTop extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.image_outlined,color: primitives.surface_icon1(),)
+                  icon: Icon(Icons.image_outlined,color: primitives.surface_icon1,)
               ),
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.compare_outlined,color: primitives.surface_icon1(),)
+                  icon: Icon(Icons.compare_outlined,color: primitives.surface_icon1,)
               ),
             ],
           )

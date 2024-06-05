@@ -78,13 +78,14 @@ class Primitives {  //0xFF    A1A1A1
   Rx<Color> get text_fourth => blue2;
   // Surface
   Rx<Color> get surface_primary => grey50;
-  Rx<Color> get surface_secondary => grey600;
+  // Rx<Color> get surface_secondary => grey600;
+  Color surface_secondary = Color(0xFF141414);
   Rx<Color> get surface_tools => grey500;
   Rx<Color> get surface_button_1 => blue1;
   Rx<Color> get surface_button_2 => yellow2;
   Rx<Color> get surface_textbox => grey120;
   Rx<Color> get surface_dialog => grey550;
-  Rx<Color> get surface_icon1 => grey230;
+  Color surface_icon1 = Color(0xFF97979D);
   Rx<Color> get surface_icon2 => grey350;
   Rx<Color> get surface_icon3 => grey450;
   Rx<Color> get surface_icon4 => yellow1;
@@ -98,12 +99,12 @@ class Primitives {  //0xFF    A1A1A1
   // Rx<double> get radius_lg => radius4;
   // Rx<double> get radius_xl => radius5;
   // Border
-  Rx<Color> get border_primary => grey300;
-  Rx<Color> get border_secondary => grey180;
-  
+  Color border_primary = Color(0xFF5E5E5E);
+  Color border_secondary = Color(0xFFC5C5CD);
+
   // active and inactive
-  Rx<Color> get active => grey250;
-  Rx<Color> get inactive => grey480;
+  Color active = Color(0xFF8E8E92);
+  Color inactive = Color(0xFF3B3B3B);
 
   // active and inactive of icon button
   Rx<Color> get inactiveIconButton => grey50;
@@ -117,6 +118,3 @@ class Primitives {  //0xFF    A1A1A1
 
 
 }
-
-// Sử dụng các biến màu và số trong ứng dụng của bạn bằng cách:
-// AppColors.color1, AppColors.number1, v.v.

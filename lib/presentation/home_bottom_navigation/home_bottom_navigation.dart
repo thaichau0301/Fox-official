@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fox/core/app_export.dart';
+import 'package:get/get.dart';
 import 'package:fox/presentation/user_screen/user_screen.dart';
 import '../../theme/theme_helper.dart';
 import '../home_screen/home_screen.dart';
@@ -34,8 +34,6 @@ class HomeBottomBar extends StatelessWidget {
 
   Widget buildBottomNavigationBar() {
     final controller = Get.find<HomeBottomBarController>();
-    double iconSize = 20;
-
     return Container(
       height: 80,
       child: Theme(
@@ -51,12 +49,12 @@ class HomeBottomBar extends StatelessWidget {
             controller.changeTab(index);
           },
           items: [
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.house, size: iconSize,), label: 'Home'),
-            BottomNavigationBarItem(
-                icon:  FaIcon(FontAwesomeIcons.circlePlus, size: iconSize + 20, color: Colors.black26,) ,label: ''),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.solidUser, size: iconSize,),  label: 'User'),
+            const BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.house, size: 20,), label: 'Home'),
+            const BottomNavigationBarItem(
+                icon:  FaIcon(FontAwesomeIcons.circlePlus, size: 40, color: Colors.black26,) ,label: ''),
+            const BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.solidUser, size: 20,),  label: 'User'),
           ],
         ),
       ),

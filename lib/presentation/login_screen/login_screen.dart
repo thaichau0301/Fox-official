@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../core/utils/image_constant.dart';
-import '../../theme/app_decoration.dart';
-import '../../widgets/custom_image_view.dart';
 import 'controller/login_controller.dart'; // ignore_for_file: must_be_immutable
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class LoginScreen extends GetView<LoginController> {
@@ -15,16 +12,16 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<LoginController>();
-    return SafeArea(
+    return  SafeArea(
       child: Scaffold(
         body: Center(
           child: Column(
             children: [
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               _buildLoginColumnIconFox(),
-              Spacer(
+              const Spacer(
                 flex: 3,
               ),
               Padding(
@@ -33,14 +30,14 @@ class LoginScreen extends GetView<LoginController> {
                   children: [
                     customButtonSignIn(controller.SignInWithGoogle, FontAwesomeIcons.google,
                         'Continue with Google', Colors.white),
-                    SizedBox(height: 16,),
+                    const SizedBox(height: 16,),
                     customButtonSignIn(controller.SignInWithFacebook, FontAwesomeIcons.facebook,
                         'Continue with Facebook', Colors.blue),
-                    SizedBox(height: 16,),
+                    const SizedBox(height: 16,),
                   ],
                 ),
               ),
-              Spacer(
+              const Spacer(
                 flex: 3,
               )
             ],
@@ -61,12 +58,12 @@ class LoginScreen extends GetView<LoginController> {
         label: Text(label, style: TextStyle(fontSize: 16, color: Colors.black), textAlign: TextAlign.center ,),
             style: ElevatedButton.styleFrom(
               alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-            backgroundColor: customColor,
-            overlayColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
-              side: BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+              padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+              backgroundColor: customColor,
+              overlayColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
             ),
           ),
       ),
@@ -79,14 +76,11 @@ class LoginScreen extends GetView<LoginController> {
         Container(
           height: 200,
           width: 200,
-          child: CustomImageView(
-            fit: BoxFit.contain,
-            imagePath: ImageConstant.imgIconFox,
-          ),
+          child: Image.asset('assets/images/img_icon_fox.png'),
         ),
         Container(
-          decoration: AppDecoration.outlineBlack,
-          child: Text('FOX', style: TextStyle(fontSize: 60,),)
+          // decoration: AppDecoration.outlineBlack,
+          child: const Text('FOX', style: TextStyle(fontSize: 60,),)
         )
       ],
     );
