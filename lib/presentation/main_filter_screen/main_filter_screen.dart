@@ -34,7 +34,7 @@ class ApplyFilters {
         // mainController.editedImage.value = getImage['image_filtered'];
         mainController.updateEditedImage(getImage['image_filtered']);
         print('start delay 500ms');
-        Future.delayed(Duration(milliseconds: 500));
+        Future.delayed(Duration(milliseconds: 100));
       }
     }
     catch (e){

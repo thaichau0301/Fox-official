@@ -1,7 +1,6 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_connect.dart';
-import '../../core/app_export.dart';
 
 
 class CustomFacebookAuth extends GetConnect {

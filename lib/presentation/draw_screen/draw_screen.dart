@@ -24,7 +24,7 @@ class DrawTools extends StatelessWidget {
       flex: 4,
       child: Container(
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: primitives.surface_secondary.value),
+        decoration: BoxDecoration(color: primitives.surface_secondary),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,7 +51,7 @@ class DrawTools extends StatelessWidget {
   BottomAppBar customBottomAppBar () {
     final controller = Get.put(DrawToolsController());
     return BottomAppBar(
-      color: primitives.surface_secondary.value,
+      color: primitives.surface_secondary,
       child: Container(
         height: 30,
         child: GetBuilder<DrawToolsController>(

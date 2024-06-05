@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme,
-        initialRoute: AppRoutes.appNavigationScreen,
+        initialRoute: AppRoutes.homeBottomNavigation,
         getPages: AppRoutes.pages,
       );
     });

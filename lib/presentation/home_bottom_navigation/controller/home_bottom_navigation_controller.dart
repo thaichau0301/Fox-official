@@ -7,8 +7,11 @@ import 'package:path_provider/path_provider.dart';
 class HomeBottomBarController extends GetxController {
   RxInt tabIndex = 0.obs;
   void changeTab(int index) {
+    if(index == 1) {
+      pickImage();
+      return;
+    }
     tabIndex.value = index;
-    if(index == 1) pickImage();
     update();
   }
   Future<void> pickImage() async {

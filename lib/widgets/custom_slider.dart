@@ -31,15 +31,15 @@ class CustomSlider extends StatelessWidget {
                     Expanded(
                       child: LinearProgressIndicator(
                           value: 1 - sliderController.sliderValue / minValueSlider,
-                          color: primitives.inactive(),
-                          backgroundColor: primitives.active()),
+                          color: primitives.inactive,
+                          backgroundColor: primitives.active),
                       flex: minValueSlider.abs().round(),
                     ),
                     Expanded(
                       child: LinearProgressIndicator(
                           value: sliderController.sliderValue / maxValueSlider,
-                          color: primitives.active(),
-                          backgroundColor: primitives.inactive()),
+                          color: primitives.active,
+                          backgroundColor: primitives.inactive),
                       flex: maxValueSlider.abs().round(),
                     ),
                   ],
