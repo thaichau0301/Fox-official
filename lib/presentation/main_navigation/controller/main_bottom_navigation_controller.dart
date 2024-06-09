@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:fox/presentation/main_crop_screen/main_crop_screen.dart';
 import 'package:get/get.dart';
 import '../../main_filter_screen/main_filter_screen.dart';
+import '../../text_edit_screen/text_edit_screen.dart';
 
 class MainBottomNavController extends GetxController {
   // XFile? originalImage;
-  Rx<File?> editedImage = Rx<File?>(Get.arguments['fileImage']!);
-  String? nameImage = Get.arguments['nameImage'];
+  Rx<File?> editedImage = Rx<File?>(null);
+  String nameImage = '';
   void onInit(){
     super.onInit();
     // holder File image
@@ -20,13 +21,14 @@ class MainBottomNavController extends GetxController {
       // case 0: Get.to(() => AdjustTools()); break;
       case 1: ApplyFilters().apply(); break;
       case 2: CropTools().CropImage(); break;
+      case 5: Get.to(() => TextEditTools()); break;
     }
     update();
   }
   void updateEditedImage(File newFile)  {
+    // final File? temporaryFileImage = editedImage.value;
      editedImage.value =  newFile;
-     print('update image');
-     print('file after update ' + editedImage.value.toString());
+    // temporaryFileImage!.deleteSync();
      update();
 
   }
