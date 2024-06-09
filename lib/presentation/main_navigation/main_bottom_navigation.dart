@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
 import '../../widgets/custom_bottom_sheet_confirm_cancel.dart';
+import '../text_edit_screen/controller/text_edit_controller.dart';
+import '../text_edit_screen/text_edit_model.dart';
 import 'controller/main_bottom_navigation_controller.dart';
 
 Primitives primitives = new Primitives();
@@ -14,9 +18,8 @@ class MainBottomBar extends StatelessWidget {
     //delete a particular instance of controller, force = true to reset controller
     // Get.delete<MainBottomNavController>(force: true);
     final controller = Get.put(MainBottomNavController());
-    
-    return Scaffold(
 
+    return Scaffold(
       backgroundColor: Colors.white12,
       appBar: customAppBar(context),
       body: Container(
@@ -26,11 +29,47 @@ class MainBottomBar extends StatelessWidget {
         color: Colors.black45),
         child: Obx(() => Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.file(controller.editedImage.value!),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(flex: 1, child: Container()),
+              Flexible(
+                flex: 6,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                       Image.file(controller.editedImage.value!),
+                        markupText()
+
+                      ]
+                  ),
+                ),
+              ),
+              Expanded(flex: 1, child: Container()),
+            ],
+          )
         )),
         ),
       bottomNavigationBar: customBottomBar(),
     );
+  }
+  markupText(){
+    final textController = Get.put(MainTextController());
+    textController.isEmpty();
+      return Stack(
+        children: [
+            for(int i = 0; i < textController.texts.length; i++)
+              Positioned(
+                  left: textController.texts[i].left,
+                  top: textController.texts[i].top,
+                  child: ImageText(textInfo: textController.texts[i],)
+              ),
+
+        ],
+      );
   }
   customAppBar(context) {
     return PreferredSize(

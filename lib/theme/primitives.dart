@@ -46,7 +46,7 @@ class Primitives {  //0xFF    A1A1A1
 
   // radius
   final Rx<double> radius1 = 4.0.obs;
-  final Rx<double> radius2 = 8.0.obs;
+  final double radius2 = 8.0;
   final Rx<double> radius3 = 16.0.obs;
   final Rx<double> radius4 = 20.0.obs;
   final Rx<double> radius5 = 24.0.obs;
@@ -110,9 +110,9 @@ class Primitives {  //0xFF    A1A1A1
   Rx<Color> get inactiveIconButton => grey50;
   Rx<Color> get activeIconButton => blue3;
 
-  Rx<Color> get inactiveIconButton2 => grey50;
-  Rx<Color> get activeIconButton2 => yellow1;
 
+  Color inactiveIconButton2 = Color(0xFFFFFFFF);
+  Color activeIconButton2 = Color(0xFFFBBC05);
   final double space = 20;
 
 

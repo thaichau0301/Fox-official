@@ -30,12 +30,12 @@ class DrawTools extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Container(
+              child: Container(                        
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(child: CustomSliderPositive()),
+                    // Expanded(child: CustomSliderPositive()),
                     SizedBox(width: 10,),
                     Obx(() => Text('${controller_slider.sliderValue.value.toInt()}', style: TextStyle(fontSize: primitives.font_md, color: Colors.white),)),
                   ],

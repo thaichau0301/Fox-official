@@ -1,26 +1,93 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:fox/presentation/text_edit_screen/controller/text_edit_controller.dart';
 import 'package:fox/widgets/custom_slider_positive.dart';
-import 'package:fox/widgets/table_colors.dart';
 import 'package:get/get.dart';
 import 'package:fox/theme/primitives.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'text_edit_model.dart';
 
-final mainTextController controller = Get.put(mainTextController());
-Primitives primitives = Get.put(Primitives());
-final table_colors = Get.put(tableColors());
+
+final MainTextController controller = Get.put(MainTextController());
+Primitives primitives = new Primitives();
 final controller_slider = Get.put(sliderController());
+final mainController = Get.find<MainBottomNavController>();
 
 class TextEditTools extends StatelessWidget {
   TextEditTools({super.key});
-
+  final TextEditingController textEditingController = TextEditingController();
+  final ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
-    final mainTextController controller = Get.put(mainTextController());
-    return Expanded(
-      flex: 3,
-      child: GetBuilder<mainTextController>(builder: (controller) {
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Color(0xFF97979D),),
+        centerTitle: true,
+        title: Text('Text', style: TextStyle(color : Color(0xFF97979D) ),),
+        backgroundColor: Colors.white12,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () async {
+              final directory = await getApplicationDocumentsDirectory();
+              // new name image
+              String newName = 't_' + mainController.nameImage;
+              // save image
+              String? newImage = await screenshotController.captureAndSave(
+                  delay: Duration(milliseconds: 100),
+                  directory.path , fileName: newName);
+              // assign editedImage with new image
+              mainController.updateEditedImage(File(newImage!));
+              print(newImage);
+              // delete temporary image
+              // File(directory.path + newName).deleteSync();
+
+              Get.back();
+            },
+          )
+        ],
+      ),
+      body: GetBuilder<MainTextController>(
+        init: MainTextController(),
+        builder: (controller) {
+
         return Column(
           children: [
+            Expanded(
+              flex: 10,
+              child: builderDisplayImage()
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  maxLines: null,
+                  style: TextStyle(fontSize: 15.0, color: Colors.white),
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                      hintText: 'Enter text...',
+                      filled: true,
+                      fillColor: Colors.white30,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical:  10, horizontal: 10),
+                      suffixIcon:IconButton(
+                          onPressed: () {
+                            controller.addNewText(textEditingController.text);
+                            textEditingController.clear();
+                          },
+                          padding: EdgeInsets.zero,
+                          icon: Icon(Icons.check, color: Colors.white,)
+
+                      )
+                  ),
+                ),
+              )
+            ),
             Expanded(flex: 1, child: listOption()),
             Expanded(
               flex: 2,
@@ -40,12 +107,57 @@ class TextEditTools extends StatelessWidget {
       ),
     );
   }
-
+  builderDisplayImage(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(flex: 1, child: Container()),
+        Flexible(
+          flex: 6,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Screenshot(
+              controller: screenshotController,
+              child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.file(mainController.editedImage.value!),
+                    for(int i=0; i< controller.texts.length; i++)
+                      Positioned(
+                        left: controller.texts[i].left,
+                        top: controller.texts[i].top,
+                        child: GestureDetector(
+                            onLongPress: (){
+                              controller.currentIndexText.value = i;
+                              controller.deleteText();
+                            },
+                            onTap: () => {controller.setCurrentIndex(i),},
+                            onPanUpdate: (details)  {
+                              controller.texts[i].left += details.delta.dx;
+                              controller.texts[i].top += details.delta.dy;
+                              controller.update();
+                            },
+                            child: ImageText( textInfo: controller.texts[i],)
+                        ),
+                      ),
+                    // Align(
+                    //   alignment: Alignment(controller.texts[0].left/100, controller.texts[0].top/200),
+                    //     child: ImageText( textInfo: controller.texts[0],))
+                  ]
+              ),
+            ),
+          ),
+        ),
+        Expanded(flex: 1, child: Container()),
+      ],
+    );
+  }
   Widget listOption  () {
     var listNameFunction = [
       'Text', 'Format', 'Colors', 'Font size',
     ];
-    return GetBuilder<mainTextController>(
+    return GetBuilder<MainTextController>(
         builder: (controller) {
           return SizedBox(
             height: 50,
@@ -70,13 +182,14 @@ class TextEditTools extends StatelessWidget {
     );
   }
   Widget visibilityText () {
-    var listFont = [ 'Helvetica', 'Arial', 'Calibre', 'Courier New', 'Roboto', 'Impact', 'Times New Roman', 'DM sans',  ];
-
-    return GetBuilder<mainTextController>(
+    return GetBuilder<MainTextController>(
         builder: (controller) {
+          int selected = controller.selectedFont.value;
+          Color active = primitives.activeIconButton2;
+          Color inactive = primitives.inactiveIconButton2;
           return ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: listFont.length,
+              itemCount: controller.listFont.length,
               itemBuilder: (context, index) {
                 return Row(
                   children: [
@@ -84,16 +197,14 @@ class TextEditTools extends StatelessWidget {
                     TextButton(
                         onPressed: (){ controller.changeFontIndex(index); },
                         style:  TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(primitives.radius2.value),),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(primitives.radius2),),
                           padding: EdgeInsets.symmetric(vertical: primitives.spacing_sm, horizontal: primitives.spacing_sm),
                           side: BorderSide(
-                              color: controller.selectedFont.value == index ?
-                              primitives.activeIconButton2.value : primitives.inactiveIconButton2.value
+                              color: selected == index ? active : inactive
                           ),
                         ),
-                        child: Text(listFont[index], style: TextStyle(fontSize: primitives.font_md,
-                            color: controller.selectedFont.value == index ?
-                            primitives.activeIconButton2.value : primitives.inactiveIconButton2.value
+                        child: Text(controller.listFont[index], style: TextStyle(fontSize: primitives.font_md,
+                            color: selected == index ? active : inactive
                         ),
                         )
                     ),
@@ -121,12 +232,11 @@ class TextEditTools extends StatelessWidget {
       Icons.align_vertical_center_outlined,
       Icons.align_vertical_bottom_outlined,
     ];
-    var colorActiveIcon = primitives.activeIconButton2.value;
-    var colorInactiveIcon = primitives.inactiveIconButton2.value;
-    return GetBuilder<mainTextController>(
+    Color active = primitives.activeIconButton2;
+    Color inactive = primitives.inactiveIconButton2;
+    return GetBuilder<MainTextController>(
       builder: (controller) {
         return  Container(
-            width: double.infinity,
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -138,7 +248,7 @@ class TextEditTools extends StatelessWidget {
                     itemBuilder: (context, index){
                       return IconButton(onPressed: () { controller.changeFormatIndex(index); },
                           icon: Icon(listIconFormatText[index],
-                            color: controller.selectedFormatText[index] ? colorActiveIcon : colorInactiveIcon,)
+                            color: controller.selectedFormatText[index] ? active : inactive,)
                       );
                     }
                 ),
@@ -151,7 +261,7 @@ class TextEditTools extends StatelessWidget {
                     itemBuilder: (context, index){
                       return IconButton(onPressed: (){controller.changeAlignVerticalIndex(index);},
                           icon: Icon(listIconAlignVertical[index],
-                            color: controller.selectedAlignVertical[index] == true ? colorActiveIcon : colorInactiveIcon,)
+                            color: controller.selectedAlignVertical[index] == true ? active : inactive,)
                           );
                     }
                 ),
@@ -164,7 +274,7 @@ class TextEditTools extends StatelessWidget {
                     itemBuilder: (context, index){
                       return IconButton(onPressed: (){controller.changeAlignHorizontalIndex(index); },
                           icon: Icon(listIconAlignHorizontal[index],
-                            color: controller.selectedAlignHorizontal[index] == true ?  colorActiveIcon : colorInactiveIcon,)
+                            color: controller.selectedAlignHorizontal[index] == true ?  active : inactive,)
                       );
                     }
                 ),
@@ -175,32 +285,70 @@ class TextEditTools extends StatelessWidget {
     );
   }
   Widget visibilityColors () {
-    return GetBuilder<mainTextController>(
+    double sizeIcon = 35;
+    return GetBuilder<MainTextController>(
       builder: (controller) {
         return  Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
-            child: table_colors
+            child: Center(
+                child: Container(
+                  height: sizeIcon,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.listColors.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: (){controller.changeTextColor(index);},
+                          child: Container(
+                            width: sizeIcon,
+                            decoration: BoxDecoration(
+                              color: controller.listColors[index],
+                              border: Border.all(
+                                color: controller.selectedColor == index ? Colors.white : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+
+                          ),
+                        );
+                      }
+                  ),
+                  ),
+                )
         );
       },
     );
   }
   Widget visibilityFontSize () {
-    controller_slider.updateValueSlider(controller.minFontSize);
-    return GetBuilder<mainTextController>(
+    return GetBuilder<MainTextController>(
       builder: (controller) {
         return  Container(
           padding: const EdgeInsets.fromLTRB(25,10,25,0),
             child: Row(
               children: [
-                Text('Size', style: TextStyle(fontSize: 12, color: Colors.white),),
-                SizedBox(width: 10,),
-                Expanded(child: CustomSliderPositive()),
-                SizedBox(width: 10,),
-                Obx(() => Text('${controller_slider.sliderValue.value.toInt()}', style: TextStyle(fontSize: 12, color: Colors.white),)),
+                const Text('Size', style: TextStyle(fontSize: 13, color: Colors.white),),
+                Expanded(child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: CustomSliderPositive(slider: Slider(
+                    activeColor: primitives.active,
+                    inactiveColor: primitives.inactive,
+                    value: controller.sliderValue.value,
+                    min: 20,
+                    max: 100,
+                    divisions: 100,
+                    onChanged: (value) {
+                      controller.updateValueSlider(value);
+                      controller.texts[controller.currentIndexText.value].fontSize = value;
+                    },
+                  ),),
+                )),
+                Text('${controller.sliderValue.value.toInt()}', style: TextStyle(fontSize: 13, color: Colors.white),),
               ],
             ),
         );
       },
     );
   }
+
 }
