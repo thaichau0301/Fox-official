@@ -51,10 +51,10 @@ class CustomSlider extends StatelessWidget {
                 inactiveColor: Colors.transparent,
                 // Tắt animation cho thumb
                 thumbColor: sliderController.sliderValue == 0
-                    ? primitives.surface_text()
+                    ? primitives.surface_text
                     : sliderController.sliderValue > 0
-                    ? primitives.text_secondary()
-                    : primitives.text_secondary(),
+                    ? primitives.text_secondary
+                    : primitives.text_secondary,
                 min: minValueSlider,
                 max: maxValueSlider,
                 divisions: (minValueSlider.abs() + maxValueSlider.abs()).round(),

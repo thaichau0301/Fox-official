@@ -14,7 +14,14 @@ class HomeBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final controller = Get.put(HomeBottomBarController());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Scaffold(
+        appBar: AppBar(title: Text('enter text'),),
+        backgroundColor: Colors.yellowAccent,
+        body: Container(height: double.infinity, width: double.infinity, color: Colors.blue,),
+      );
 
+    });
     return Obx(() => Scaffold(
           body: Center(
             child:

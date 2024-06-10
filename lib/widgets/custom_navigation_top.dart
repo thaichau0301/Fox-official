@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fox/theme/primitives.dart';
 
 import '../presentation/main_adjust_screen/main_adjust_screen.dart';
 
+
+Primitives primitives = new Primitives();
 class navigationTop extends StatelessWidget {
   const navigationTop({super.key});
 

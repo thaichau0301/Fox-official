@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
 import '../../widgets/custom_bottom_sheet_confirm_cancel.dart';
@@ -11,6 +10,7 @@ import 'controller/main_bottom_navigation_controller.dart';
 
 Primitives primitives = new Primitives();
 
+
 class MainBottomBar extends StatelessWidget {
   const MainBottomBar({super.key});
   @override
@@ -18,47 +18,15 @@ class MainBottomBar extends StatelessWidget {
     //delete a particular instance of controller, force = true to reset controller
     // Get.delete<MainBottomNavController>(force: true);
     final controller = Get.put(MainBottomNavController());
-
-    return Scaffold(
-      backgroundColor: Colors.white12,
-      appBar: customAppBar(context),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-        color: Colors.black45),
-        child: Obx(() => Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(flex: 1, child: Container()),
-              Flexible(
-                flex: 6,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                       Image.file(controller.editedImage.value!),
-                        markupText()
-
-                      ]
-                  ),
-                ),
-              ),
-              Expanded(flex: 1, child: Container()),
-            ],
-          )
-        )),
-        ),
-      bottomNavigationBar: customBottomBar(),
-    );
+    return MainFrame(
+        customAppBar: customAppBar(context),
+        customFrameImage: customPlaceImage(controller),
+        customMenuTools: Container(),
+        customBottomNavigationBar: customBottomBar()).FrameForAll();
   }
-  markupText(){
+
+  Widget markupText(){
     final textController = Get.put(MainTextController());
-    textController.isEmpty();
       return Stack(
         children: [
             for(int i = 0; i < textController.texts.length; i++)
@@ -71,7 +39,7 @@ class MainBottomBar extends StatelessWidget {
         ],
       );
   }
-  customAppBar(context) {
+  PreferredSizeWidget customAppBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.0),
       child: AppBar(
@@ -123,6 +91,16 @@ class MainBottomBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+  Widget customPlaceImage(MainBottomNavController controller) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+      Image.file(controller.editedImage.value!),
+      markupText(),
+        IconButton(onPressed: (){print(controller.editedImage.value!);}, icon: Icon(Icons.camera,color: Colors.white,))
+    ],
     );
   }
 

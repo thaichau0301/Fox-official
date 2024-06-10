@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import '../text_edit_model.dart';
 
 class MainTextController extends GetxController {
-  var selectedFont = 0.obs;
-  var selectedColor = 0.obs;
-  var indexChildWidget = 0.obs;
+  var selectedFont;
+  var selectedColor;
+  var indexChildWidget;
   RxInt currentIndexText = 0.obs;
   var selectedFormatText = List.filled(3, false);
   var selectedAlignHorizontal = List.filled(3,false).obs;
@@ -17,8 +17,13 @@ class MainTextController extends GetxController {
   List<TextInfo> texts = [];
   TextEditingController textEditingController = new TextEditingController();
   var sliderValue = 30.0.obs;
-
-
+  void onInit(){
+    super.onInit();
+    selectedFont = 0.obs;
+    selectedColor = 0.obs;
+    indexChildWidget = 0.obs;
+    texts = [];
+  }
   void updateValueSlider(newValue) {
     if(sliderValue.value != newValue){
       sliderValue.value = newValue;
@@ -26,12 +31,10 @@ class MainTextController extends GetxController {
     update();
   }
   void changeTabIndex(int index) {
-    print(index);
     indexChildWidget.value = index;
     update();
   }
   void changeFontIndex(int index) {
-    print(index);
     selectedFont.value = index;
     texts[currentIndexText.value].fontFamily = listFont[index];
     update();
@@ -124,14 +127,6 @@ class MainTextController extends GetxController {
     if (size != 30) {
       texts[currentIndexText.value].fontSize = size;
       update();
-    }
-  }
-  isEmpty(){
-    if(texts.isEmpty) {
-      print('text empty');
-    }
-    else {
-      print('text not empty');
     }
   }
 }
