@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/app_export.dart';
+import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:get/get.dart';
 import '../text_edit_model.dart';
 
@@ -16,6 +17,7 @@ class MainTextController extends GetxController {
   var listFont = [ 'Open Sans', 'Oswald', 'Inter', 'Courier Prime', 'Roboto', 'Poppins',  'Playfair Display',  ];
   List<TextInfo> texts = [];
   TextEditingController textEditingController = new TextEditingController();
+  MainBottomNavController mainController = Get.find();
   var sliderValue = 30.0.obs;
   void onInit(){
     super.onInit();
@@ -81,12 +83,48 @@ class MainTextController extends GetxController {
   void addNewText(String inputText) {
     texts.add(TextInfo(
       text: inputText,
+      textDecoration: TextDecoration.none,
+      left: 100,
+      top: 100,
+      color: Colors.white,
+      fontWeight: FontWeight.normal,
+      fontStyle: FontStyle.normal,
+      fontSize: 30,
+      textAlign: TextAlign.center,
+      fontFamily: 'Roboto',
     ));
     update();
   }
-  void deleteText(){
-    texts.removeAt(currentIndexText.value);
+  void duplicateText(){
+    if(texts[currentIndexText.value].text != '') {
+      TextInfo duplicate = texts[currentIndexText.value];
+      texts.add(TextInfo(
+        text: duplicate.text,
+        textDecoration: duplicate.textDecoration,
+        left: duplicate.left + 20,
+        top: duplicate.top + 20,
+        color: duplicate.color,
+        fontWeight: duplicate.fontWeight,
+        fontStyle: duplicate.fontStyle,
+        fontSize: duplicate.fontSize,
+        textAlign: duplicate.textAlign,
+        fontFamily: duplicate.fontFamily,
+      ));
+      update();
+    }
+  }
+  void updateText(String newText){
+    texts.elementAt(currentIndexText.value).text = newText;
     update();
+  }
+  void deleteText(){
+    if(texts.isNotEmpty){
+      texts.removeAt(currentIndexText.value);
+      update();
+    }
+    else {
+      print('have not text');
+    }
   }
   var listColors = [
     Colors.white,
@@ -115,7 +153,8 @@ class MainTextController extends GetxController {
 
   setCurrentIndex(int index) {
     currentIndexText.value = index;
-    update();
+    // update();
+    // Get.back();
     Get.snackbar('Selected', 'Style text');
   }
   changeTextColor(int indexColor){
@@ -129,4 +168,17 @@ class MainTextController extends GetxController {
       update();
     }
   }
+//   final directory = await getApplicationDocumentsDirectory();
+//   // new name image
+//   String newName = 't_' + mainController.nameImage;
+//   // save image
+//   String? newImage = await screenshotController.captureAndSave(
+//   delay: Duration(milliseconds: 100),
+//   directory.path , fileName: newName);
+//   // assign editedImage with new image
+//   mainController.updateEditedImage(File(newImage!));
+//   print(newImage);
+// // delete temporary image
+// // File(directory.path + newName).deleteSync();
+
 }

@@ -33,7 +33,7 @@ class HomeBottomBarController extends GetxController {
         // move file image from cache to app_flutter - ready for editing will get image from here
         File newFileImage = await fileImage.copySync('${appDocumentsDir.path}/$newNameImage');
         Get.delete<MainBottomNavController>(force: true);
-        Get.delete<MainTextController>(force: true);
+        // Get.delete<MainTextController>(force: true);
         Get.toNamed('/main_navigation',arguments: {'fileImage': newFileImage, 'nameImage' : newNameImage});
       }
       catch (e)

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:fox/theme/primitives.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+Primitives primitives = new Primitives();
 class DrawToolsController extends GetxController {
   var selectedIndex = 0.obs;
   void onTapChange(index) {
@@ -59,19 +60,19 @@ class DrawTools extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(onPressed: () {controller.onTapChange(0);}, icon: FaIcon(FontAwesomeIcons.paintbrush,
-              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,)
+              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton : primitives.inactiveIconButton,)
             ),
             IconButton(onPressed: () {controller.onTapChange(1);}, icon: FaIcon(FontAwesomeIcons.pencil,
-              color: controller.selectedIndex.value == 1 ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,)
+              color: controller.selectedIndex.value == 1 ? primitives.activeIconButton : primitives.inactiveIconButton,)
             ),
             IconButton(onPressed: () {controller.onTapChange(0);}, icon: FaIcon(FontAwesomeIcons.highlighter,
-              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,)
+              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton : primitives.inactiveIconButton,)
             ),
             IconButton(onPressed: () {controller.onTapChange(0);}, icon: FaIcon(FontAwesomeIcons.eraser,
-              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,)
+              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton : primitives.inactiveIconButton,)
             ),
             IconButton(onPressed: () {controller.onTapChange(0);}, icon: FaIcon(FontAwesomeIcons.palette,
-              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton.value : primitives.inactiveIconButton.value,)
+              color: controller.selectedIndex.value == 0 ? primitives.activeIconButton : primitives.inactiveIconButton,)
             ),
           ],
           ),
@@ -103,7 +104,7 @@ class DrawTools extends StatelessWidget {
                 onPressed: () {controller.onTapChange(index);},
                 icon: listIcon[index],
                   color: controller.selectedIndex.value == index ?
-                    primitives.activeIconButton.value : primitives.inactiveIconButton.value,
+                    primitives.activeIconButton : primitives.inactiveIconButton,
             ),
           );
         },
