@@ -2,20 +2,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 class TextInfo {
-  String text;
-  double left = 100.0;
-  double top = 100.0;
-  Color color = Colors.white;
-  FontWeight fontWeight = FontWeight.normal;
-  FontStyle fontStyle = FontStyle.normal;
-  double fontSize = 30;
-  TextAlign textAlign = TextAlign.center;
-  String fontFamily = 'Roboto';
-  TextDecoration? textDecoration = TextDecoration.none;
+   String text;
+   double left;
+   double top;
+   Color color;
+   FontWeight fontWeight;
+   FontStyle fontStyle ;
+   double fontSize ;
+   TextAlign textAlign;
+   String fontFamily;
+ TextDecoration textDecoration;
 
 
-  TextInfo({
+  TextInfo(
+      {
     required this.text,
+    required  this.textDecoration,
+    required this.left,
+    required this.top,
+    required this.color,
+    required this.fontWeight,
+    required this.fontStyle,
+    required this.fontSize,
+    required this.textAlign,
+    required this.fontFamily,
   });
 }
 
@@ -25,7 +35,6 @@ class ImageText extends StatelessWidget {
     Key? key,
     required this.textInfo,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
