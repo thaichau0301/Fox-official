@@ -1,5 +1,7 @@
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fox/presentation/text_edit_screen/form_enter_text.dart';
+import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
@@ -25,18 +27,23 @@ class MainBottomBar extends StatelessWidget {
         customBottomNavigationBar: customBottomBar()).FrameForAll();
   }
 
-  Widget markupText(){
-    final textController = Get.put(MainTextController());
-      return Stack(
-        children: [
-            for(int i = 0; i < textController.texts.length; i++)
-              Positioned(
-                  left: textController.texts[i].left,
-                  top: textController.texts[i].top,
-                  child: ImageText(textInfo: textController.texts[i],)
-              ),
+  Widget markupText(MainBottomNavController mainController){
+      return GetBuilder<MainTextController>(
+        init: MainTextController(),
+        builder: (controller) => GestureDetector(
+          onTap: () { Get.to(() => TextEditTools(), arguments: {'image' : mainController.editedImage.value}); }, // route to edit text
+          child: Stack(
+            children: [
+                for(int i = 0; i < controller.texts.length; i++)
+                  Positioned(
+                      left: controller.texts[i].left,
+                      top: controller.texts[i].top,
+                      child: ImageText(textInfo: controller.texts[i],)
+                  ),
 
-        ],
+            ],
+          ),
+        ),
       );
   }
   PreferredSizeWidget customAppBar(context) {
@@ -98,13 +105,13 @@ class MainBottomBar extends StatelessWidget {
       alignment: Alignment.center,
       children: [
       Image.file(controller.editedImage.value!),
-      markupText(),
-        IconButton(onPressed: (){print(controller.editedImage.value!);}, icon: Icon(Icons.camera,color: Colors.white,))
+      markupText(controller),
     ],
     );
   }
-
   Widget customBottomBar() {
+    final controller = Get.find<MainBottomNavController>();
+
     var listBottomIcon = [
       Icons.tune_outlined,
       Icons.filter_tilt_shift_outlined,
@@ -125,7 +132,6 @@ class MainBottomBar extends StatelessWidget {
       'Draw',
       'Stickers',
     ];
-    final controller = Get.find<MainBottomNavController>();
     return Container(
       height: 90,
       color: primitives.surface_secondary,
