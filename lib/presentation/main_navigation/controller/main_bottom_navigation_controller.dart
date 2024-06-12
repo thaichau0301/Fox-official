@@ -28,7 +28,7 @@ class MainBottomNavController extends GetxController {
       case 2: CropTools().CropImage(); break;
 
       case 5: Get.to(() => EnterText(), arguments: {'image' : editedImage.value }); break;
-      case 6: Get.to(() => DrawTools()); break;
+      case 6: Get.to(() => DrawTools(), arguments: {'image' : editedImage.value }); break;
       case 7: Get.to(() => InsertSticker()); break;
 
     }

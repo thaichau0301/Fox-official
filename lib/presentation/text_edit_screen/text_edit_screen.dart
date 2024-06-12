@@ -12,7 +12,7 @@ import '../../theme/theme_helper.dart';
 import 'text_edit_model.dart';
 
 final TextEditingController textEditingController = TextEditingController();
-final MainTextController controller = Get.find();
+final  controller = Get.put(MainTextController());
 Primitives primitives = new Primitives();
 final controller_slider = Get.put(sliderController());
 MainBottomNavController mainController = Get.find();
@@ -33,6 +33,7 @@ class TextEditTools extends StatelessWidget {
   Widget buildBottomNavigationBar() {
     return Container(
       height: 80,
+      color: Colors.redAccent,
       child: Theme(
         data: theme.copyWith(
           splashColor: Colors.transparent,
@@ -116,7 +117,7 @@ class TextEditTools extends StatelessWidget {
       backgroundColor: primitives.surface_secondary,
       leading: IconButton(
         onPressed: () {
-          // controller.texts.clear();
+          controller.texts.clear();
           Get.to(() => MainBottomBar());
         },
         icon: Icon(Icons.arrow_back_ios_new_outlined),),
@@ -133,28 +134,31 @@ class TextEditTools extends StatelessWidget {
   Widget builderDisplayImage(){
     return Screenshot(
       controller: screenshotController,
-      child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.file(Get.arguments['image']),
-            for(int i=0; i< controller.texts.length; i++)
-              Positioned(
-                left: controller.texts[i].left,
-                top: controller.texts[i].top,
-                child: GestureDetector(
-                    onTap: ()  {
-                      controller.setCurrentIndex(i);
-                    },
-                    onPanUpdate: (details)  {
+      child: Container(
+        child: Stack(
+          fit: StackFit.expand,
+            alignment: Alignment.center,
+            children: [
+              Image.file(Get.arguments['image'], fit: BoxFit.fitWidth,),
+              for(int i=0; i< controller.texts.length; i++)
+                Positioned(
+                  left: controller.texts[i].left,
+                  top: controller.texts[i].top,
+                  child: GestureDetector(
+                      onTap: ()  {
+                        controller.setCurrentIndex(i);
+                      },
+                      onPanUpdate: (details)  {
 
-                      controller.texts[i].left += details.delta.dx;
-                      controller.texts[i].top += details.delta.dy;
-                      controller.update();
-                    },
-                    child: ImageText( textInfo: controller.texts[i],)
+                        controller.texts[i].left += details.delta.dx;
+                        controller.texts[i].top += details.delta.dy;
+                        controller.update();
+                      },
+                      child: ImageText( textInfo: controller.texts[i],)
+                  ),
                 ),
-              ),
-          ]
+            ]
+        ),
       ),
     );
   }

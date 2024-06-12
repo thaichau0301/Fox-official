@@ -35,15 +35,15 @@ class MainFrame {
                   flex: 9,
                   child: Column(
                     children: [
-                      // Expanded(flex: 1, child: Container()),
-                      Expanded(
+                      Expanded(flex: 1, child: Container()),
+                      Flexible(
                         flex:  10,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: customFrameImage,
                         ),
                       ),
-                      // Expanded(flex: 1, child: Container()),
+                      Expanded(flex: 1, child: Container()),
                     ],
                   ),
                 ),

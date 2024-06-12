@@ -1,3 +1,6 @@
+
+import 'package:fox/widgets/colors_picker.dart';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -77,7 +80,9 @@ class DrawingPainter extends CustomPainter {
 
 class PaintController extends GetxController {
   var selectedIndex = 0.obs;
-  void onTapChange(index) {
+  var sliderValue = 10.0.obs;
+  void onTapChange(int index) {
+
     selectedIndex.value = index;
     switch(index) {
       case 0: setDrawingMode(DrawingMode.Paint); break;
@@ -90,9 +95,25 @@ class PaintController extends GetxController {
   List<DrawnLine> lines = [];
   DrawnLine? line;
   // change color of line paint
-  Color selectedColor = Colors.blue;
-  double strokeWidth = 4.0;
+
+  Color selectedColor = Colors.white;
+  double strokeWidth = 10;
   DrawingMode selectedMode = DrawingMode.Paint;
+  ColorsPickerController colorsPickerController = Get.put(ColorsPickerController());
+  // void updateStrokeWidth(){
+  //   strokeWidth = sliderValue.value;
+  //   update();
+  // }
+  void updateValueSlider(newValue) {
+    sliderValue.value = newValue;
+    strokeWidth = newValue;
+    update();
+  }
+  void updateColorLine(){
+    selectedColor = colorsPickerController.Picker();
+    update();
+  }
+
   void startLine(Offset offset) {
     line = DrawnLine(
       [offset],
