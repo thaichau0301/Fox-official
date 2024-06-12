@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:fox/presentation/draw_screen/draw_screen.dart';
-import 'package:fox/presentation/main_adjust_screen/controller/main_adjust_controller.dart';
+
 import 'package:fox/presentation/main_crop_screen/main_crop_screen.dart';
 import 'package:fox/presentation/sticker_bottom_sheet_screen/sticker_bottom_sheet_screen.dart';
 import 'package:fox/presentation/text_edit_screen/controller/text_edit_controller.dart';
@@ -26,9 +26,11 @@ class MainBottomNavController extends GetxController {
       // case 0: Get.to(() => AdjustTools()); break;
       case 1: ApplyFilters().apply(); break;
       case 2: CropTools().CropImage(); break;
+
       case 5: Get.to(() => EnterText(), arguments: {'image' : editedImage.value }); break;
       case 6: Get.to(() => DrawTools()); break;
       case 7: Get.to(() => InsertSticker()); break;
+
     }
     update();
   }
