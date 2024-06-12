@@ -1,6 +1,4 @@
-
 import 'package:fox/widgets/colors_picker.dart';
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -94,16 +92,10 @@ class PaintController extends GetxController {
   }
   List<DrawnLine> lines = [];
   DrawnLine? line;
-  // change color of line paint
-
   Color selectedColor = Colors.white;
   double strokeWidth = 10;
   DrawingMode selectedMode = DrawingMode.Paint;
   ColorsPickerController colorsPickerController = Get.put(ColorsPickerController());
-  // void updateStrokeWidth(){
-  //   strokeWidth = sliderValue.value;
-  //   update();
-  // }
   void updateValueSlider(newValue) {
     sliderValue.value = newValue;
     strokeWidth = newValue;
