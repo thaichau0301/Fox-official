@@ -1,6 +1,6 @@
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/text_edit_screen/form_enter_text.dart';
+import 'package:fox/presentation/draw_screen/controller/draw_screen_controller.dart';
 import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
@@ -26,8 +26,17 @@ class MainBottomBar extends StatelessWidget {
         customMenuTools: Container(),
         customBottomNavigationBar: customBottomBar()).FrameForAll();
   }
+  Widget MarkupPaint() {
+    return GetBuilder<PaintController>(
+      init: PaintController(),
+      builder: (controller) => CustomPaint(
+        painter: DrawingPainter(lines: controller.lines),
+      ),
+    );
+    // DrawingPainter(lines: controller.lines, currentLine: controller.line)
 
-  Widget markupText(MainBottomNavController mainController){
+  }
+  Widget MarkupText(MainBottomNavController mainController){
       return GetBuilder<MainTextController>(
         init: MainTextController(),
         builder: (controller) => GestureDetector(
@@ -101,12 +110,16 @@ class MainBottomBar extends StatelessWidget {
     );
   }
   Widget customPlaceImage(MainBottomNavController controller) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-      Image.file(controller.editedImage.value!),
-      markupText(controller),
-    ],
+    return Container(
+      child: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: [
+        Image.file(controller.editedImage.value!, fit: BoxFit.fitWidth,),
+        MarkupText(controller),
+        MarkupPaint(),
+      ],
+      ),
     );
   }
   Widget customBottomBar() {

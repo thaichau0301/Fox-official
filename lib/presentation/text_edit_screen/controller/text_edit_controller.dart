@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/app_export.dart';
 import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
+import 'package:fox/widgets/colors_picker.dart';
 import 'package:get/get.dart';
 import '../text_edit_model.dart';
 
@@ -153,8 +154,6 @@ class MainTextController extends GetxController {
 
   setCurrentIndex(int index) {
     currentIndexText.value = index;
-    // update();
-    // Get.back();
     Get.snackbar('Selected', 'Style text');
   }
   changeTextColor(int indexColor){
