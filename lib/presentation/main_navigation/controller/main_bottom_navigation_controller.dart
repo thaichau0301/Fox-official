@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fox/presentation/draw_screen/draw_screen.dart';
 import 'package:fox/presentation/main_crop_screen/main_crop_screen.dart';
 import 'package:get/get.dart';
 import '../../main_filter_screen/main_filter_screen.dart';
@@ -22,6 +23,7 @@ class MainBottomNavController extends GetxController {
       case 1: ApplyFilters().apply(); break;
       case 2: CropTools().CropImage(); break;
       case 5: Get.to(() => TextEditTools()); break;
+      case 6: Get.to(() => DrawTools()); break;
     }
     update();
   }
