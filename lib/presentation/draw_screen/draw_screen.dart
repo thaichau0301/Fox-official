@@ -7,7 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../main_adjust_screen/main_adjust_screen.dart';
 import 'controller/draw_screen_controller.dart';
+
 final Primitives primitives = Get.put(Primitives());
+
 final controller = Get.put(PaintController());
 class DrawTools extends StatelessWidget {
   const DrawTools({super.key});
@@ -78,8 +80,10 @@ class DrawTools extends StatelessWidget {
       builder: (controller) => BottomNavigationBar(
         backgroundColor: Colors.black,
         type: BottomNavigationBarType.fixed,
+
         unselectedItemColor: primitives.inactiveIconButton,
           selectedItemColor: primitives.activeIconButton,
+
           currentIndex: controller.selectedIndex.value,
           onTap: (index){controller.onTapChange(index);},
           items: [
