@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import 'package:fox/theme/primitives.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 import '../main_adjust_screen/main_adjust_screen.dart';
 import 'controller/draw_screen_controller.dart';
 
 final Primitives primitives = Get.put(Primitives());
 
 final controller = Get.put(PaintController());
+
 class DrawTools extends StatelessWidget {
   const DrawTools({super.key});
 
@@ -21,6 +23,7 @@ class DrawTools extends StatelessWidget {
     final controller_slider = Get.put(sliderController());
     final controller = Get.put(PaintController());
     controller_slider.sliderValue.value = 30;
+
     return SafeArea(
       child: GetBuilder<PaintController>(
 
@@ -69,7 +72,7 @@ class DrawTools extends StatelessWidget {
                   size: Size.infinite,
                   painter: DrawingPainter(lines: controller.lines, currentLine: controller.line),
                 ),
-              ),
+
             ),
           ),
         ],
@@ -83,7 +86,6 @@ class DrawTools extends StatelessWidget {
 
         unselectedItemColor: primitives.inactiveIconButton,
           selectedItemColor: primitives.activeIconButton,
-
           currentIndex: controller.selectedIndex.value,
           onTap: (index){controller.onTapChange(index);},
           items: [
@@ -103,6 +105,7 @@ class DrawTools extends StatelessWidget {
             icon: FaIcon(FontAwesomeIcons.palette,), label: ''
         ),
       ]
+
       ),
     );
   }
