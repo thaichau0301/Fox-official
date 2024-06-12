@@ -1,6 +1,8 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:fox/widgets/colors_picker.dart';
+
 import 'package:fox/widgets/custom_slider_positive.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
@@ -8,10 +10,13 @@ import 'package:fox/theme/primitives.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'controller/draw_screen_controller.dart';
 
+
 Primitives primitives = new Primitives();
+
 
 class DrawTools extends StatelessWidget {
   const DrawTools({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +31,7 @@ class DrawTools extends StatelessWidget {
           customFrameImage: buildPaint(controller),
           customMenuTools: customMenuTools(controller),
           customBottomNavigationBar: customBottomBar()).FrameForAll(),
+
     );
   }
 
@@ -82,6 +88,7 @@ class DrawTools extends StatelessWidget {
         ],
       ),
     );
+
   }
   Widget SliderStrokeWidth (PaintController controller) {
     return Container(
@@ -105,7 +112,6 @@ class DrawTools extends StatelessWidget {
       children: [
         Expanded(flex: 1, child : SliderStrokeWidth(controller)),
         Expanded(flex: 1, child: ColorsPicker(passedFunc: controller.updateColorLine)),
-
     ]);
   }
   customBottomBar() {
@@ -136,6 +142,7 @@ class DrawTools extends StatelessWidget {
         ]
 
         ),
+
       ),
     );
   }
