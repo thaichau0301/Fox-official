@@ -59,7 +59,7 @@ class MainBottomBar extends StatelessWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.0),
       child: AppBar(
-        backgroundColor: Colors.black12,
+        backgroundColor: primitives.surface_secondary,
         iconTheme:IconThemeData(color: Colors.white),
         leading: Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -146,7 +146,7 @@ class MainBottomBar extends StatelessWidget {
       'Stickers',
     ];
     return Container(
-      height: 90,
+      height: 100,
       color: primitives.surface_secondary,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,

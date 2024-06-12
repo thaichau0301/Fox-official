@@ -18,13 +18,13 @@ class MainFrame {
 
   Widget FrameForAll() {
     return Scaffold(
-      backgroundColor: primitives.surface_secondary,
+      // backgroundColor: primitives.surface_primary,
       appBar: customAppBar,
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-            color: Colors.black45),
+            color: primitives.surface_secondary,),
         child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(

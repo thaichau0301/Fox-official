@@ -1,40 +1,29 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:fox/widgets/colors_picker.dart';
-
 import 'package:fox/widgets/custom_slider_positive.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
 import 'package:fox/theme/primitives.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../theme/theme_helper.dart';
 import 'controller/draw_screen_controller.dart';
-
 
 Primitives primitives = new Primitives();
 
-
 class DrawTools extends StatelessWidget {
   const DrawTools({super.key});
-
-
   @override
   Widget build(BuildContext context) {
-    final controller_slider = Get.put(sliderController());
-    // final controller = Get.put(PaintController());
-    controller_slider.sliderValue.value = 30;
-
     return GetBuilder<PaintController>(
       init: PaintController(),
       builder: (controller) => MainFrame(
           customAppBar: buildAppBar(),
           customFrameImage: buildPaint(controller),
-          customMenuTools: customMenuTools(controller),
-          customBottomNavigationBar: customBottomBar()).FrameForAll(),
+          customMenuTools: CustomTools(controller),
+          customBottomNavigationBar: CustomBottomNavigationBar()).FrameForAll(),
 
     );
   }
-
   AppBar buildAppBar() {
     return AppBar(
       iconTheme: IconThemeData(color: primitives.activeIconBottomBar),
@@ -57,9 +46,9 @@ class DrawTools extends StatelessWidget {
       ],
     );
   }
-
-  buildPaint(PaintController controller) {
+  Widget buildPaint(PaintController controller) {
     return Container(
+      color: primitives.surface_secondary,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -107,40 +96,51 @@ class DrawTools extends StatelessWidget {
       ),),
     );
   }
-  customMenuTools(PaintController controller) {
-    return Column(
-      children: [
-        Expanded(flex: 1, child : SliderStrokeWidth(controller)),
-        Expanded(flex: 1, child: ColorsPicker(passedFunc: controller.updateColorLine)),
-    ]);
+  Widget CustomTools(PaintController controller) {
+    return Container(
+      color: primitives.surface_secondary,
+      child: Column(
+        children: [
+          Expanded(flex: 1, child : SliderStrokeWidth(controller)),
+          Expanded(flex: 1, child: ColorsPicker(passedFunc: controller.updateColorLine)),
+      ]),
+    );
   }
-  customBottomBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  Widget CustomBottomNavigationBar() {
+    return Container(
+      padding:  EdgeInsets.symmetric(horizontal: primitives.spacing_xl),
+      color: primitives.surface_secondary,
       child: GetBuilder<PaintController>(
-        builder: (controller) => BottomNavigationBar(
-          backgroundColor: Colors.black,
-          type: BottomNavigationBarType.fixed,
-
-          unselectedItemColor: primitives.inactiveIconButton,
-            selectedItemColor: primitives.activeIconButton,
-            currentIndex: controller.selectedIndex.value,
-            onTap: (index){controller.onTapChange(index);},
-            items: [
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.paintbrush,), label: ''
+        builder: (controller) => Container(
+          height: 80,
+          child: Theme(
+            data: theme.copyWith(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: primitives.surface_secondary,
+              type: BottomNavigationBarType.fixed,
+                selectedItemColor:primitives.activeIconBottomBar,
+                unselectedItemColor: primitives.inactiveIconBottomBar,
+                currentIndex: controller.selectedIndex.value,
+                onTap: (index){controller.onTapChange(index);},
+                items: [
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.paintbrush,), label: ''
+              ),
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.pencil,), label: ''
+              ),
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.highlighter,), label: ''
+              ),
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.eraser,), label: ''
+              ),
+            ]
+            ),
           ),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.pencil,), label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.highlighter,), label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.eraser,), label: ''
-          ),
-        ]
-
         ),
 
       ),
