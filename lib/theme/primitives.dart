@@ -82,7 +82,7 @@ class Primitives {  //0xFF    A1A1A1
   // Rx<Color> get surface_dialog => grey550;
   Color get surface_icon1 => grey230;
   Color get surface_icon2 => grey350;
-  // Rx<Color> get surface_icon3 => grey450;
+  Color get surface_icon3 => grey450;
   // Rx<Color> get surface_icon4 => yellow1;
 
   Color  inactiveIconBottomBar = Color(0xFF97979D);

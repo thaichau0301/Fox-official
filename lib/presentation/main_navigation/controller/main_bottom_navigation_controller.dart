@@ -1,13 +1,10 @@
 import 'dart:io';
 import 'package:fox/presentation/draw_screen/draw_screen.dart';
-
 import 'package:fox/presentation/main_crop_screen/main_crop_screen.dart';
-import 'package:fox/presentation/sticker_bottom_sheet_screen/sticker_bottom_sheet_screen.dart';
-import 'package:fox/presentation/text_edit_screen/controller/text_edit_controller.dart';
 import 'package:get/get.dart';
 import '../../main_filter_screen/main_filter_screen.dart';
+import '../../sticker_screen/sticker_screen.dart';
 import '../../text_edit_screen/form_enter_text.dart';
-import '../../text_edit_screen/text_edit_screen.dart';
 
 class MainBottomNavController extends GetxController {
   // XFile? originalImage;
@@ -29,7 +26,7 @@ class MainBottomNavController extends GetxController {
 
       case 5: Get.to(() => EnterText(), arguments: {'image' : editedImage.value }); break;
       case 6: Get.to(() => DrawTools(), arguments: {'image' : editedImage.value }); break;
-      case 7: Get.to(() => InsertSticker()); break;
+      case 7: Get.to(() => StickerOverlay(), arguments: {'image' : editedImage.value }); break;
 
     }
     update();
