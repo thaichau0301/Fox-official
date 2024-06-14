@@ -9,7 +9,6 @@ dependencies:
     sdk: flutter
 #  flutter_localizations:
 #    sdk: flutter
-#  cached_network_image: ^3.3.0
 #  flutter_svg: ^2.0.9
   google_sign_in: ^6.2.1
   firebase_auth: ^4.19.5
@@ -46,6 +45,9 @@ flutter:
   assets: 
     - assets/
     - assets/images/
+    - assets/sticker/
+    - assets/sticker/food/
+    - assets/sticker/hiphop/
 #  fonts:
 #    - family: Roboto
 #      fonts:

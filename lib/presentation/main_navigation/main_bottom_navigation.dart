@@ -1,11 +1,14 @@
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:fox/presentation/draw_screen/controller/draw_screen_controller.dart';
+import 'package:fox/presentation/sticker_screen/controller/sticker_controller.dart';
 import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
 import '../../widgets/custom_bottom_sheet_confirm_cancel.dart';
+import '../sticker_screen/models/sticker_models.dart';
+import '../sticker_screen/sticker_screen.dart';
 import '../text_edit_screen/controller/text_edit_controller.dart';
 import '../text_edit_screen/text_edit_model.dart';
 import 'controller/main_bottom_navigation_controller.dart';
@@ -54,6 +57,34 @@ class MainBottomBar extends StatelessWidget {
           ),
         ),
       );
+  }
+  Widget MarkupSticker(MainBottomNavController mainController) {
+    return GetBuilder<StickerController>(
+      init: StickerController(),
+      builder: (controller) =>
+      Stack(
+        children: [
+          for(int i=0; i<controller.stickerInserted.length; i++)
+            Positioned(
+              top: controller.stickerInserted[i].top,
+              left: controller.stickerInserted[i].left,
+              child: GestureDetector(
+                onTap: ()  {
+                  Get.to(() => StickerOverlay(), arguments: {'image' : mainController.editedImage.value });
+                },
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  padding: EdgeInsets.all(5),
+                  child: StickerModels(
+                    stickerInfo: controller.stickerInserted[i],
+                                ),
+                ),
+            )
+            )],
+      )
+
+    );
   }
   PreferredSizeWidget customAppBar(context) {
     return PreferredSize(
@@ -118,6 +149,7 @@ class MainBottomBar extends StatelessWidget {
         Image.file(controller.editedImage.value!, fit: BoxFit.fitWidth,),
         MarkupText(controller),
         MarkupPaint(),
+        MarkupSticker(controller),
       ],
       ),
     );
