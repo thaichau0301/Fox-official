@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:get/get.dart';
 import 'package:photofilters/filters/preset_filters.dart';
 import 'package:photofilters/widgets/photo_filter.dart';
@@ -9,9 +8,11 @@ import 'package:image/image.dart' as img;
 import 'dart:typed_data';
 import 'package:path/path.dart';
 
+import '../main_screen/controller/main_screen_controller.dart';
 
-class ApplyFilters {
-  MainBottomNavController mainController = Get.find();
+
+class FiltersScreen extends StatelessWidget {
+  MainScreenController mainController = Get.find();
   Future<void> apply() async {
     try {
       File fileImage = File(mainController.editedImage.value!.path);
@@ -31,14 +32,19 @@ class ApplyFilters {
 
       if (getImage.containsKey('image_filtered')) {
         mainController.editedImage.value!.deleteSync(); // delete old file
-        // mainController.editedImage.value = getImage['image_filtered'];
         mainController.updateEditedImage(getImage['image_filtered']);
-        print('start delay 500ms');
         Future.delayed(Duration(milliseconds: 100));
       }
     }
     catch (e){
       print('error adjust image $e');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    apply();
+    throw UnimplementedError();
   }
 }

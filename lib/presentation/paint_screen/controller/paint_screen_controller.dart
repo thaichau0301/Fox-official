@@ -80,7 +80,6 @@ class PaintController extends GetxController {
   var selectedIndex = 0.obs;
   var sliderValue = 10.0.obs;
   void onTapChange(int index) {
-
     selectedIndex.value = index;
     switch(index) {
       case 0: setDrawingMode(DrawingMode.Paint); break;

@@ -110,10 +110,13 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
     return Scaffold(
       backgroundColor: Colors.black45,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Color(0xFF97979D),),
+        iconTheme: IconThemeData(color: Colors.white,),
         centerTitle: true,
-        title: Text('Filters', style: TextStyle(color : Color(0xFF97979D) ),),
+        title: Text('Filters', style: TextStyle(color : Colors.white),),
         backgroundColor: Colors.white12,
+        leading: IconButton(
+          onPressed: () {Get.back();},
+          icon: Icon(Icons.arrow_back_ios_outlined),),
         actions: <Widget>[
           loading
               ? Container()
@@ -138,62 +141,65 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
             : Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                      child: Container(
-                        height: 50,
-                        child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.compare_outlined),
-                          color: Color(0xFF97979D),
-                          highlightColor: Colors.transparent,
-                        )
-                                            ],
-                                          ),
-                      )),
+                  // Flexible(
+                  //     child: Container(
+                  //       height: 50,
+                  //       child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.end,
+                  //       children: [
+                  //       IconButton(
+                  //         onPressed: () {},
+                  //         icon: Icon(Icons.compare_outlined),
+                  //         color: Color(0xFF97979D),
+                  //         highlightColor: Colors.transparent,
+                  //       )
+                  //                           ],
+                  //                         ),
+                  //     )),
                   Expanded(
-                    flex: 5,
+                    flex: 9,
                     child:  _buildFilteredImage(
                       _filter,
                       image,
                       filename,
                     ),
                   ),
-                  Visibility(
-                    visible: showFilter,
-                    child: Container(
-                      color: Colors.white12,
-                      height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: widget.filters.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              padding: EdgeInsets.all(5.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  _buildFilterThumbnail(
-                                      widget.filters[index], image, filename),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    widget.filters[index].name,
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
+                  Expanded(
+                    flex: 2,
+                    child: Visibility(
+                      visible: showFilter,
+                      child: Container(
+                        color: Colors.white12,
+                        height: 150,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.filters.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              child: Container(
+                                padding: EdgeInsets.all(5.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    _buildFilterThumbnail(
+                                        widget.filters[index], image, filename),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text(
+                                      widget.filters[index].name,
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            onTap: () => setState(() {
-                              _filter = widget.filters[index];
-                            }),
-                          );
-                        },
+                              onTap: () => setState(() {
+                                _filter = widget.filters[index];
+                              }),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -294,7 +300,8 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
               cachedFilters[filter?.name ?? "_"] = snapshot.data;
               return Image.memory(
                       snapshot.data as dynamic,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fitWidth,
+                      filterQuality: FilterQuality.high,
                     );
           }
           // unreachable

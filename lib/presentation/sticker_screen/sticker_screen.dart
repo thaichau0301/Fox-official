@@ -4,57 +4,49 @@ import 'package:fox/presentation/sticker_screen/controller/sticker_controller.da
 import 'package:fox/presentation/sticker_screen/models/sticker_models.dart';
 import 'package:fox/theme/primitives.dart';
 
-import '../main_navigation/main_bottom_navigation.dart';
+import '../main_screen/controller/main_screen_controller.dart';
 
 Primitives primitives = new Primitives();
-class StickerOverlay extends StatelessWidget {
-  const StickerOverlay({super.key});
-
+class StickerScreen extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
-    Get.put(StickerController());
     return SafeArea(
-        child: Scaffold(
-          backgroundColor: primitives.surface_secondary,
-          body: GetBuilder<StickerController>(
-            builder: (controller) => Column(
-              children: [
-                  Expanded(
-                      flex: 2,
-                      child: Stack(children: [
-                        Image.file(
-                          Get.arguments['image'],
-                          fit: BoxFit.contain,
-                        ),
-                        for(int i=0; i<controller.stickerInserted.length; i++)
-                          Positioned(
-                            top: controller.stickerInserted[i].top,
-                            left: controller.stickerInserted[i].left,
-                            child: GestureDetector(
-                              onTap: ()  {
-                                controller.EditSticker(i);
-                              },
-                              onPanUpdate: (details)  {
-                                controller.stickerInserted[i].left += details.delta.dx;
-                                controller.stickerInserted[i].top += details.delta.dy;
-                                controller.update();
-                              },
-                              child: CustomSticker(controller, i, controller.stickerInserted[i].isShowButton),
-                            ),
-                          )
-                      ])),
-                  SizedBox(height: 20,),
-                Expanded(flex: 1, child: Column(
-                  children: [
-                    Expanded(flex: 1, child: ListPackSticker(controller)),
-                    SizedBox(height: 10,),
-                    Expanded(flex: 4, child: ShowSticker(controller)),
-                  ],
-                ))
-              ],
-            ),
+      child: GetBuilder<StickerController>(
+        init: StickerController(),
+        builder: (controller) => Scaffold(
+          appBar: AppBar(),
+          body: Column(
+            children: [
+              Expanded(flex: 1, child: ListPackSticker(controller)),
+              Expanded(flex: 10, child: ShowSticker(controller)),
+        
+            ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+  Widget DisplayStickers() {
+    Get.put(StickerController());
+    return GetBuilder<StickerController>(
+        builder: (controller) => Stack(children: [
+          for(int i=0; i<controller.stickerInserted.length; i++)
+            Positioned(
+              top: controller.stickerInserted[i].top,
+              left: controller.stickerInserted[i].left,
+              child: GestureDetector(
+                onTap: ()  {
+                  controller.EditSticker(i);
+                },
+                onPanUpdate: (details)  {
+                  controller.stickerInserted[i].left += details.delta.dx;
+                  controller.stickerInserted[i].top += details.delta.dy;
+                  controller.update();
+                },
+                child: CustomSticker(controller, i, controller.stickerInserted[i].isShowButton),
+              ),
+            )
+        ]));
   }
 
   Widget CustomSticker(StickerController controller, int i, bool isShowButton) {
@@ -123,59 +115,56 @@ class StickerOverlay extends StatelessWidget {
     }
     else {
       return
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 60,
-                color: primitives.surface_secondary,
-                padding: EdgeInsets.all(5),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.previewPackSticker.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            controller.ChoosePackSticker(index);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset(
-                                controller.previewPackSticker[index]),
-                          )
-                      );
-                    }
+        ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.listNamePack.length,
+            itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal:  5.0, vertical: 15),
+              child: OutlinedButton(
+                  onPressed: () {
+                    controller.ChoosePackSticker(index);
+                  },
+                  child: Text(
+                      controller.listNamePack[index],
+                    style: TextStyle(fontSize: 17,
+                        color: Colors.cyan,
+                        backgroundColor: Colors.white,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.blue, width: 1), // Border color and width
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                overlayColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
                 ),
-              ),
-            ),
-            IconButton(onPressed: (){
-              Get.to(() => MainBottomBar());
-            },
-                icon: Icon(Icons.check_outlined, color: Colors.white,))
-          ],
-        );
+              )),
+            );
+          });
     }
   }
   Widget ShowSticker(StickerController controller){
-    return Container(
-      color: Colors.white,
-      child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-            ),
-            itemCount: controller.currentPack.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    controller.ChooseSticker(index);
-                    },
-                    child: Image.asset(controller.currentPack.elementAt(index), fit: BoxFit.contain,)
-                ),
-              );
-            },
-      ),
+    return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+          ),
+          itemCount: controller.currentPack.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  controller.ChooseSticker(index);
+                  Get.back();
+                  },
+                  child: Image.asset(controller.currentPack.elementAt(index), fit: BoxFit.contain,)
+              ),
+            );
+          },
     );
   }
+
+
 }

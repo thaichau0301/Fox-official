@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class Primitives {  //0xFF    A1A1A1
-  final Rx<Color> color30 = Color(0xFF5A91F7).obs;
+class Primitives {
   // colors/yellow
-  //static const Color color30 = Color(0xFF);
    Color yellow1 = Color(0xFFFBBC05);
    Color yellow2 = Color(0xFFF7D046);
   Color yellow3 = Color(0xFFFFFF00);
@@ -34,22 +31,6 @@ class Primitives {  //0xFF    A1A1A1
   //colors/red
   Color red1 = Color(0xFFDF5243);
 
-  // object
-  final Rx<double> object1 = 25.0.obs;
-  final Rx<double> object2 = 30.0.obs;
-  final Rx<double> object3 = 35.0.obs;
-  final Rx<double> object4 = 40.0.obs;
-
-  // radius
-  final Rx<double> radius1 = 4.0.obs;
-  final double radius2 = 8.0;
-  final Rx<double> radius3 = 16.0.obs;
-  final Rx<double> radius4 = 20.0.obs;
-  final Rx<double> radius5 = 24.0.obs;
-  final Rx<double> radius6 = 28.0.obs;
-  final Rx<double> radius7 = 32.0.obs;
-  final Rx<double> radius8 = 36.0.obs;
-
   //spacing
   final double spacing_none = 0;
   final double spacing_xs = 4;
@@ -76,14 +57,9 @@ class Primitives {  //0xFF    A1A1A1
   Color get surface_primary => grey50;
   Color get surface_secondary => grey600;
   Color get surface_tools => grey500;
-  // Rx<Color> get surface_button_1 => blue1;
-  // Rx<Color> get surface_button_2 => yellow2;
-  // Rx<Color> get surface_textbox => grey120;
-  // Rx<Color> get surface_dialog => grey550;
   Color get surface_icon1 => grey230;
   Color get surface_icon2 => grey350;
   Color get surface_icon3 => grey450;
-  // Rx<Color> get surface_icon4 => yellow1;
 
   Color  inactiveIconBottomBar = Color(0xFF97979D);
   Color  activeIconBottomBar = Color(0xFFFFFFFF);
@@ -103,5 +79,7 @@ class Primitives {  //0xFF    A1A1A1
   Color inactiveIconButton2 = Color(0xFFFFFFFF);
   Color activeIconButton2 = Color(0xFFFBBC05);
   final double space = 20;
+
+  double heightBottom = 90;
 
 }

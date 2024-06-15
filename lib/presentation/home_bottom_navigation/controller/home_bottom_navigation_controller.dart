@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
+import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:fox/presentation/text_edit_screen/controller/text_edit_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,9 +32,8 @@ class HomeBottomBarController extends GetxController {
 
         // move file image from cache to app_flutter - ready for editing will get image from here
         File newFileImage = await fileImage.copySync('${appDocumentsDir.path}/$newNameImage');
-        Get.delete<MainBottomNavController>(force: true);
-        // Get.delete<MainTextController>(force: true);
-        Get.toNamed('/main_navigation',arguments: {'fileImage': newFileImage, 'nameImage' : newNameImage});
+        Get.delete<MainScreenController>(force: true);
+        Get.toNamed('/main_screen',arguments: {'fileImage': newFileImage, 'nameImage' : newNameImage});
       }
       catch (e)
       {

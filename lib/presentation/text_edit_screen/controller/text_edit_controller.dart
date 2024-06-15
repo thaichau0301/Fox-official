@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/app_export.dart';
-import 'package:fox/presentation/main_navigation/controller/main_bottom_navigation_controller.dart';
+import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:fox/widgets/colors_picker.dart';
 import 'package:get/get.dart';
 import '../text_edit_model.dart';
 
-class MainTextController extends GetxController {
+class TextEditController extends GetxController {
   var selectedFont;
   var selectedColor;
-  var indexChildWidget;
+  var indexChildWidget = 0.obs;
   RxInt currentIndexText = 0.obs;
   var selectedFormatText = List.filled(3, false);
   var selectedAlignHorizontal = List.filled(3,false).obs;
   var selectedAlignVertical = List.filled(3,false).obs;
   Map<String, double>? locationWidgetImage;
-
   var listFont = [ 'Open Sans', 'Oswald', 'Inter', 'Courier Prime', 'Roboto', 'Poppins',  'Playfair Display',  ];
   List<TextInfo> texts = [];
   TextEditingController textEditingController = new TextEditingController();
-  MainBottomNavController mainController = Get.find();
+  MainScreenController mainController = Get.find();
+
   var sliderValue = 30.0.obs;
   void onInit(){
     super.onInit();
@@ -28,28 +28,26 @@ class MainTextController extends GetxController {
     texts = [];
   }
   void updateValueSlider(newValue) {
-    if(sliderValue.value != newValue){
-      sliderValue.value = newValue;
-    }
-    update();
+    sliderValue.value = newValue;
+    mainController.update();
   }
   void changeTabIndex(int index) {
     indexChildWidget.value = index;
-    update();
+    mainController.update();
   }
   void changeFontIndex(int index) {
     selectedFont.value = index;
     texts[currentIndexText.value].fontFamily = listFont[index];
-    update();
+    mainController.update();
   }
   void changeFormatIndex (int index) {
     selectedFormatText[index] == false ? selectedFormatText[index] = true : selectedFormatText[index] = false;
     switch(index){
-      case 0: if(texts[currentIndexText.value].fontWeight == FontWeight.bold){
-        texts[currentIndexText.value].fontWeight = FontWeight.normal;
+      case 0: if(texts[currentIndexText.value].fontWeight == FontWeight.normal){
+        texts[currentIndexText.value].fontWeight = FontWeight.bold;
       }
       else {
-        texts[currentIndexText.value].fontWeight = FontWeight.bold;
+        texts[currentIndexText.value].fontWeight = FontWeight.normal;
       } break;
 
       case 1: if(texts[currentIndexText.value].fontStyle == FontStyle.normal){
@@ -67,7 +65,7 @@ class MainTextController extends GetxController {
       } break;
 
     }
-    update();
+    mainController.update();
   }
   void changeAlignHorizontalIndex(int index) {
     selectedAlignHorizontal.assignAll(List.filled(3,false));
@@ -92,7 +90,7 @@ class MainTextController extends GetxController {
       fontStyle: FontStyle.normal,
       fontSize: 30,
       textAlign: TextAlign.center,
-      fontFamily: 'Roboto',
+      fontFamily: 'Roboto', isChoose: false,
     ));
     update();
   }
@@ -109,7 +107,7 @@ class MainTextController extends GetxController {
         fontStyle: duplicate.fontStyle,
         fontSize: duplicate.fontSize,
         textAlign: duplicate.textAlign,
-        fontFamily: duplicate.fontFamily,
+        fontFamily: duplicate.fontFamily, isChoose: false,
       ));
       update();
     }
@@ -127,38 +125,23 @@ class MainTextController extends GetxController {
       print('have not text');
     }
   }
-  var listColors = [
-    Colors.white,
-    Colors.white70,
-    Colors.white38,
-    Colors.white24,
-    Colors.black,
-    Colors.blueAccent.shade700,
-    Colors.blueAccent.shade400,
-    Colors.blueAccent.shade200,
-    Colors.blueAccent.shade100,
-    Colors.redAccent.shade700,
-    Colors.redAccent.shade400,
-    Colors.redAccent.shade200,
-    Colors.redAccent.shade100,
-    Colors.brown,
-    Colors.greenAccent.shade700,
-    Colors.greenAccent.shade400,
-    Colors.greenAccent.shade200,
-    Colors.greenAccent.shade100,
-    Colors.yellowAccent.shade700,
-    Colors.yellowAccent.shade400,
-    Colors.yellowAccent.shade200,
-    Colors.yellowAccent.shade100,
-  ];
-
   setCurrentIndex(int index) {
-    currentIndexText.value = index;
-    Get.snackbar('Selected', 'Style text');
+    try {
+      currentIndexText.value = index;
+      for (var text in texts) {
+        text.isChoose = false;
+      }
+      texts[currentIndexText.value].isChoose = true;
+    }
+    catch(e) {
+      print(e);
+    }
+    update();
   }
-  changeTextColor(int indexColor){
-    selectedColor.value = indexColor;
-    texts[currentIndexText.value].color = listColors[indexColor];
+  // if write ColorsPickerController().Pick , index color will be always reset
+  ColorsPickerController colorsPickerController = Get.put(ColorsPickerController());
+  changeTextColor(){
+    texts[currentIndexText.value].color = colorsPickerController.Picker();
     update();
   }
   changeTextSize(double size) {
@@ -167,17 +150,5 @@ class MainTextController extends GetxController {
       update();
     }
   }
-//   final directory = await getApplicationDocumentsDirectory();
-//   // new name image
-//   String newName = 't_' + mainController.nameImage;
-//   // save image
-//   String? newImage = await screenshotController.captureAndSave(
-//   delay: Duration(milliseconds: 100),
-//   directory.path , fileName: newName);
-//   // assign editedImage with new image
-//   mainController.updateEditedImage(File(newImage!));
-//   print(newImage);
-// // delete temporary image
-// // File(directory.path + newName).deleteSync();
 
 }

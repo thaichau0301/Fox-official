@@ -12,6 +12,7 @@ class TextInfo {
    TextAlign textAlign;
    String fontFamily;
  TextDecoration textDecoration;
+ bool isChoose;
 
 
   TextInfo(
@@ -26,6 +27,7 @@ class TextInfo {
     required this.fontSize,
     required this.textAlign,
     required this.fontFamily,
+    required this.isChoose,
   });
 }
 
@@ -41,6 +43,7 @@ class ImageText extends StatelessWidget {
     return Text(
       textInfo.text,
       textAlign: textInfo.textAlign,
+      softWrap: true,
       style: GoogleFonts.getFont(
         textInfo.fontFamily, // font from package, pass string
         fontSize: textInfo.fontSize,

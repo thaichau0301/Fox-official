@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:get/get.dart';
 import '../../theme/primitives.dart';
-import '../main_navigation/controller/main_bottom_navigation_controller.dart';
 import 'package:path/path.dart';
-class CropTools {
+class CropScreen extends StatelessWidget {
   var isLoading = false.obs;
   var hasError = false.obs;
-  final mainController = Get.find<MainBottomNavController>();
+  final mainController = Get.find<MainScreenController>();
   Primitives primitives = new Primitives();
   Future<void> CropImage() async {
     try {
@@ -74,6 +74,13 @@ class CropTools {
     {
       isLoading.value = false;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    CropImage();
+    throw UnimplementedError();
   }
 
 }

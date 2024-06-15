@@ -5,55 +5,47 @@ Primitives primitives = new Primitives();
 class MainFrame {
   final PreferredSizeWidget customAppBar;
   final Widget customFrameImage;
-  final Widget? customMenuTools;
-  final Widget customBottomNavigationBar;
+  final Widget? customBottom;
 
   MainFrame(
     {
     required this.customAppBar,
     required this.customFrameImage,
-    required this.customMenuTools,
-    required this.customBottomNavigationBar
+    required this.customBottom,
     });
 
   Widget FrameForAll() {
     return Scaffold(
-      // backgroundColor: primitives.surface_primary,
       appBar: customAppBar,
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
             color: primitives.surface_secondary,),
-        child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 9,
-                  child: Column(
-                    children: [
-                      Expanded(flex: 1, child: Container()),
-                      Flexible(
-                        flex:  10,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: customFrameImage,
-                        ),
-                      ),
-                      Expanded(flex: 1, child: Container()),
-                    ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Column(
+                children: [
+                  Expanded(flex: 1, child: Container()),
+                  Expanded(
+                    flex:  10,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom:  10.0),
+                      child: customFrameImage,
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: customMenuTools!)
-              ],
-            )
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: customBottom!)
+          ],
         )),
-      bottomNavigationBar: customBottomNavigationBar,
     );
   }
 

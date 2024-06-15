@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:get/get.dart';
-
 import 'controller/text_edit_controller.dart';
 
-
-final MainTextController controller = Get.find();
-// Primitives primitives = new Primitives();
-// MainBottomNavController mainController = Get.find();
+final TextEditController controller = Get.put(TextEditController());
 class EnterText extends StatelessWidget {
   const EnterText({super.key});
 
@@ -29,6 +25,7 @@ class EnterText extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {
+                          textEditingController.clear();
                           Get.back();
                         },
                         child: Text(
@@ -45,7 +42,7 @@ class EnterText extends StatelessWidget {
                             controller.updateText(textEditingController.text);
                           }
                           textEditingController.clear();
-                          Get.to(() => TextEditTools(), arguments: {'image' : Get.arguments['image'] });
+                          Get.back();
                         },
                         child: Text(
                           'Done',
@@ -57,7 +54,7 @@ class EnterText extends StatelessWidget {
                   ),
                 ),
                 const Spacer(flex: 1,),
-                enterText(),
+                FormEnterText(),
                 const Spacer(flex: 3,),
               ],),
           )
@@ -65,9 +62,7 @@ class EnterText extends StatelessWidget {
     );
   }
 }
-
-
-Widget enterText(){
+Widget FormEnterText(){
   return TextField(
     maxLines: null,
     textAlign: TextAlign.center,
