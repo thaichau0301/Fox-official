@@ -10,7 +10,7 @@ import 'text_edit_model.dart';
 final TextEditingController textEditingController = TextEditingController();
 Primitives primitives = new Primitives();
 MainScreenController mainController = Get.find();
-TextEditController controller = Get.find();
+TextController controller = Get.find();
 
 class TextEditScreen {
   int keyIndex;
@@ -80,11 +80,11 @@ class TextEditScreen {
 
   Widget BuildMenuTools() {
     return GetBuilder<MainScreenController>(
-        builder: (controller) => switch (controller.tabText.value) {
+        builder: (mainController) => switch (mainController.tabText.value) {
               0 => FontText(),
               1 => FormatText(),
               2 => ColorsPicker(
-                  passedFunc: Get.find<TextEditController>().changeTextColor),
+                  passedFunc: Get.find<TextController>().changeTextColor),
               3 => SizeText(),
               // TODO: Handle this case.
               int() => throw UnimplementedError(),
@@ -92,7 +92,7 @@ class TextEditScreen {
   }
 
   Widget BuildDisplayImage(MainScreenController mainController) {
-    return GetBuilder<TextEditController>(
+    return GetBuilder<TextController>(
       builder: (controller) => IntrinsicWidth(
         child:
             Stack(fit: StackFit.expand, alignment: Alignment.center, children: [
@@ -202,7 +202,7 @@ class TextEditScreen {
                                 ),
                               ),
                               padding: EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ImageText(
+                              child: DisplayText(
                                 textInfo: controller.texts[i],
                               ),
                             ),

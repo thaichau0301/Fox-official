@@ -4,9 +4,12 @@ import 'package:fox/presentation/paint_screen/paint_screen.dart';
 import 'package:fox/presentation/sticker_screen/sticker_screen.dart';
 import 'package:fox/widgets/main_frame.dart';
 import 'package:get/get.dart';
+import 'package:screenshot/screenshot.dart';
 import '../../theme/primitives.dart';
 import '../../widgets/custom_bottom_sheet_confirm_cancel.dart';
 import '../paint_screen/controller/paint_screen_controller.dart';
+import '../sticker_screen/controller/sticker_controller.dart';
+import '../text_edit_screen/controller/text_edit_controller.dart';
 import '../text_edit_screen/text_edit_screen.dart';
 import 'controller/main_screen_controller.dart';
 
@@ -19,9 +22,12 @@ class MainScreen extends StatelessWidget {
     //delete a particular instance of controller, force = true to reset controller
     // Get.delete<MainBottomNavController>(force: true);
     Get.put(MainScreenController());
+    Get.put(TextController());
+    Get.put(PaintController());
+    Get.put(StickerController());
     return GetBuilder<MainScreenController>(
       builder: (controller) => MainFrame(
-        customAppBar: customAppBar(context),
+        customAppBar: customAppBar(context, controller),
         customFrameImage: customFrameImage(controller),
         customBottom: changeBottom(controller),
       ).FrameForAll(),
@@ -49,7 +55,6 @@ class MainScreen extends StatelessWidget {
         );
       case 4:
         return GetBuilder<PaintController>(
-          init: PaintController(),
           builder: (controller) => Column(
             children: [
               Expanded(flex: 2, child: PaintScreen().CustomTools(controller)),
@@ -64,10 +69,12 @@ class MainScreen extends StatelessWidget {
 
   Widget MarkupPaint() {
     return GetBuilder<PaintController>(
-      init: PaintController(),
-      builder: (controller) => CustomPaint(
-        painter: DrawingPainter(lines: controller.lines),
-      ),
+      builder: (controller) =>
+          ClipRect(
+            child: CustomPaint(
+              painter: DrawingPainter(lines: controller.lines),
+            ),
+          ),
     );
   }
 
@@ -79,7 +86,7 @@ class MainScreen extends StatelessWidget {
     return StickerScreen().DisplayStickers();
   }
 
-  PreferredSizeWidget customAppBar(context) {
+  PreferredSizeWidget customAppBar(context, MainScreenController controller) {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.0),
       child: AppBar(
@@ -102,13 +109,16 @@ class MainScreen extends StatelessWidget {
               onPressed: () {
                 showMenu(
                   context: context,
-                  position: RelativeRect.fromLTRB(200, 90, 0, 100),
+                  position: RelativeRect.fromLTRB(200, 70, 0, 100),
                   // Adjust position as needed
                   color: Colors.black,
                   items: [
                     PopupMenuItem(
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          controller.saveImageGallery();
+                          Get.back();
+                        },
                         child: const Text(
                           'Save to camera roll',
                           style: TextStyle(color: Colors.white, fontSize: 13),
@@ -118,7 +128,10 @@ class MainScreen extends StatelessWidget {
                     ),
                     PopupMenuItem(
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.saveImageStudio();
+                          Get.back();
+                        },
                         child: const Text(
                           'Save to studio',
                           style: TextStyle(color: Colors.white, fontSize: 13),
@@ -141,19 +154,24 @@ class MainScreen extends StatelessWidget {
   }
 
   Widget customFrameImage(MainScreenController controller) {
-    return Container(
+    return Screenshot(
+      controller: controller.screenshotController,
       child: Stack(
-        fit: StackFit.expand,
+        fit: StackFit.loose,
         alignment: Alignment.center,
         children: [
-          Image.file(
-            controller.editedImage.value!,
-            fit: BoxFit.fitWidth,
-            filterQuality: FilterQuality.high,
-          ),
-          PaintScreen().buildPaint(),
-          MarkupText(controller),
-          MarkupSticker(controller),
+            Image.file(
+              controller.editedImage.value!,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+            ),
+            if(controller.tabIndex.value == 4)
+              Positioned.fill(child: PaintScreen().buildPaint()) // can paint
+            else
+              Positioned.fill(child: MarkupPaint()), // only show line paint
+
+            Positioned.fill(child: MarkupText(controller)),
+            Positioned.fill(child: MarkupSticker(controller)),
         ],
       ),
     );
@@ -196,7 +214,11 @@ class MainScreen extends StatelessWidget {
                       ),
                     )
                   ],
-                ));
+                ),
+              style: TextButton.styleFrom(
+                overlayColor: Colors.transparent
+              ),
+            );
           }),
     );
   }

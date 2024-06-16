@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../theme/primitives.dart';
 import 'package:path/path.dart';
-class CropScreen extends StatelessWidget {
-  var isLoading = false.obs;
-  var hasError = false.obs;
+
+class CropScreen {
+  final isLoading = false.obs;
+  final hasError = false.obs;
   final mainController = Get.find<MainScreenController>();
-  Primitives primitives = new Primitives();
-  Future<void> CropImage() async {
+  final Primitives primitives = new Primitives();
+
+  Future<void> CropImage(String path) async {
     try {
       isLoading.value = true;
       hasError.value = false;
-      print('sourcePath for crop image' + mainController.editedImage.value!.path);
       CroppedFile? cropImage = await ImageCropper().cropImage(
-        sourcePath: mainController.editedImage.value!.path,
+        sourcePath: path,
         aspectRatioPresets: [
           CropAspectRatioPreset.original,
           CropAspectRatioPreset.ratio3x2,
@@ -44,7 +46,6 @@ class CropScreen extends StatelessWidget {
       );
       if(File(cropImage!.path).existsSync()) {
         try {
-          // default name file of crop so long, i change it to c_originalNameImage
           int lastIndex = mainController.editedImage.value!.path.lastIndexOf(
               '/');
           final nameImage = basename(mainController.editedImage.value!.path);
@@ -75,12 +76,4 @@ class CropScreen extends StatelessWidget {
       isLoading.value = false;
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    CropImage();
-    throw UnimplementedError();
-  }
-
 }

@@ -31,9 +31,9 @@ class TextInfo {
   });
 }
 
-class ImageText extends StatelessWidget {
+class DisplayText extends StatelessWidget {
   final TextInfo textInfo;
-  const ImageText({
+  const DisplayText({
     Key? key,
     required this.textInfo,
   }) : super(key: key);

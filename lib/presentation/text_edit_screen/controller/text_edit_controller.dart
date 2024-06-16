@@ -5,7 +5,7 @@ import 'package:fox/widgets/colors_picker.dart';
 import 'package:get/get.dart';
 import '../text_edit_model.dart';
 
-class TextEditController extends GetxController {
+class TextController extends GetxController {
   var selectedFont;
   var selectedColor;
   var indexChildWidget = 0.obs;

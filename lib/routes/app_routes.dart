@@ -53,14 +53,14 @@ class AppRoutes {
       name: mainScreen,
       page: () => MainScreen(),
     ),
-    GetPage(
-      name: filtersScreen,
-      page: () => FiltersScreen(),
-    ),
-    GetPage(
-      name: cropScreen,
-      page: () => CropScreen(),
-    ),
+    // GetPage(
+    //   name: filtersScreen,
+    //   page: () => FiltersScreen(),
+    // ),
+    // GetPage(
+    //   name: cropScreen,
+    //   page: () => CropScreen(),
+    // ),
     GetPage(
       name: enterTextScreen,
       page: () => EnterText(),

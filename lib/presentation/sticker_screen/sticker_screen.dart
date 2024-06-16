@@ -4,15 +4,12 @@ import 'package:fox/presentation/sticker_screen/controller/sticker_controller.da
 import 'package:fox/presentation/sticker_screen/models/sticker_models.dart';
 import 'package:fox/theme/primitives.dart';
 
-import '../main_screen/controller/main_screen_controller.dart';
-
 Primitives primitives = new Primitives();
 class StickerScreen extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: GetBuilder<StickerController>(
-        init: StickerController(),
         builder: (controller) => Scaffold(
           appBar: AppBar(),
           body: Column(

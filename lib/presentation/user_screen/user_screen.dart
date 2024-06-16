@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fox/theme/primitives.dart';
 import '../../core/app_export.dart';
 import '../../theme/theme_helper.dart';
 import 'controller/user_controller.dart'; // ignore_for_file: must_be_immutable
 
+Primitives primitives = new Primitives();
 class UserScreen extends GetWidget<UserController> {
   const UserScreen({Key? key})
       : super(
@@ -121,12 +123,67 @@ class UserScreen extends GetWidget<UserController> {
                     style: TextStyle(fontSize: 16, color: Colors.black)
                 ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: const Text(
+                  'Library',
+                  style: TextStyle(fontSize: 12)
+              )
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextButton(
+            onPressed: () async {
+              await controller.listUserFiles();
+              await Get.to(() => CustomLibraryUser(controller));
+            },
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(),
+                alignment: Alignment.centerLeft,
+                overlayColor: Colors.transparent,
+                padding: EdgeInsets.only(left: 16)
+            ),
+            child: const Text(
+                'Library',
+                style: TextStyle(fontSize: 16, color: Colors.black)
+            ),
+          ),
           const Spacer(
             flex: 10,
           ),
         ],
       ),
     );
+  }
+  Widget CustomLibraryUser(UserController controller) {
+    return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(),
+          body: GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
+              crossAxisCount: 2, // Adjust as needed
+            ),
+            itemCount: controller.imageUrls.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical:  5.0),
+                child: GestureDetector(
+                  onTap: () {
+                    controller.onTapImage(controller.imageUrls.elementAt(index));
+                  },
+                    child: Image.network(controller.imageUrls.elementAt(index))
+                ),
+              );
+            },
+          ),
+    ));
   }
 
   void dialogConfirm(String content, String confirmText, Future<void> func()) {

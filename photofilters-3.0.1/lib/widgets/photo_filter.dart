@@ -141,21 +141,6 @@ class _PhotoFilterSelectorState extends State<PhotoFilterSelector> {
             : Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Flexible(
-                  //     child: Container(
-                  //       height: 50,
-                  //       child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.end,
-                  //       children: [
-                  //       IconButton(
-                  //         onPressed: () {},
-                  //         icon: Icon(Icons.compare_outlined),
-                  //         color: Color(0xFF97979D),
-                  //         highlightColor: Colors.transparent,
-                  //       )
-                  //                           ],
-                  //                         ),
-                  //     )),
                   Expanded(
                     flex: 9,
                     child:  _buildFilteredImage(

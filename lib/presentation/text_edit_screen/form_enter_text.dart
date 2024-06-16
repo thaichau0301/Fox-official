@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fox/presentation/text_edit_screen/text_edit_screen.dart';
 import 'package:get/get.dart';
 import 'controller/text_edit_controller.dart';
 
-final TextEditController controller = Get.put(TextEditController());
+final TextController controller = Get.put(TextController());
 class EnterText extends StatelessWidget {
   const EnterText({super.key});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-
     return Scaffold(
         body: Stack(children: [
           Positioned.fill( child: Image.file(Get.arguments['image'], fit: BoxFit.cover,)),

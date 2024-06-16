@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fox/domain/googleauth/google_auth_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../core/app_export.dart';
+import '../../main_screen/controller/main_screen_controller.dart';
 import '../models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -76,5 +81,34 @@ class UserController extends GetxController {
     else {
       Get.snackbar('Failure', 'You can not delete account');
     }
+  }
+  Set<String> imageUrls = {};
+  Future<void> listUserFiles() async {
+    final user= FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final userFolderRef = storageRef.child('user_folders/${user.uid}');
+      try {
+        final listResult = await userFolderRef.listAll();
+        for (var ref in listResult.items) {
+          final url = await ref.getDownloadURL();
+          imageUrls.add(url);
+        };
+      } on FirebaseException catch (e) {
+        print('Error listing files: $e');
+      }
+    }
+  }
+  Future<void> onTapImage(String imageUrl) async {
+    // route to main to edit that image
+    // save network image to cache to pass path to main
+    final imageData = await http.get(Uri.parse(imageUrl));
+    Directory cacheDir = await getApplicationCacheDirectory();
+    final fileName = imageUrl.split('/').last;
+    final file = File('${cacheDir.path}/$fileName');
+    // bodyBytes convert Response to Uint8List
+    await file.writeAsBytes(imageData.bodyBytes);
+    Get.delete<MainScreenController>(force: true);
+    Get.toNamed('/main_screen',arguments: {'fileImage': file, 'nameImage' : fileName});
   }
 }
