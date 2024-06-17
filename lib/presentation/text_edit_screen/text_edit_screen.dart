@@ -9,78 +9,79 @@ import 'text_edit_model.dart';
 
 final TextEditingController textEditingController = TextEditingController();
 Primitives primitives = new Primitives();
-MainScreenController mainController = Get.find();
 TextController controller = Get.find();
 
 class TextEditScreen {
-  int keyIndex;
-  TextEditScreen({required this.keyIndex});
-  Widget BuildBottomText(MainScreenController controller) {
+  Widget BuildBottomText() {
     List<Map<String, IconData>> iconButton = [
       {'Font': Icons.font_download_outlined},
       {'Format': Icons.format_bold_outlined},
       {'Colors': Icons.format_color_text_outlined},
       {'Font size': Icons.format_size_outlined}
     ];
+    int _index = controller.indexChildWidget.value;
+    Color active = primitives.activeIconBottomBar;
+    Color inactive = primitives.inactiveIconBottomBar;
     return Container(
       height: 100,
       color: primitives.surface_secondary,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Flexible(
-              flex: 1,
-              child: IconButton(
-                  onPressed: () {
-                    controller.changeBottom(0);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_outlined,
-                    color: Colors.white,
-                  ))),
-          Expanded(
-              flex: 6,
-              child: ListView.builder(
-                  itemCount: iconButton.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            controller.changeTabText(index);
-                          },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Icon(
-                                    iconButton[index].values.first,
-                                    color: Colors.white,
-                                    size: 25,
-                                  )),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    iconButton[index].keys.first,
-                                    style: TextStyle(color: Colors.white),
-                                  ))
-                            ],
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primitives.surface_secondary,
-                            overlayColor: Colors.transparent,
-                          )),
-                    );
-                  }))
-        ],
-      ),
-    );
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                  flex: 1,
+                  child: IconButton(
+                      onPressed: () {
+                        controller.currentIndexText.value = -1;
+                        Get.find<MainScreenController>().resetBottomBar();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        color: Colors.white,
+                      ))),
+              Expanded(
+                  flex: 6,
+                  child: ListView.builder(
+                      itemCount: iconButton.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                controller.changeTabIndex(index);
+                              },
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: Icon(
+                                        iconButton[index].values.first,
+                                        color: _index == index ? active : inactive,
+                                        size: 25,
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        iconButton[index].keys.first,
+                                        style: TextStyle(color: _index == index ? active : inactive,),
+                                      ))
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primitives.surface_secondary,
+                                overlayColor: Colors.transparent,
+                              )),
+                        );
+                      }))
+            ],
+          ),
+      );
+
   }
 
   Widget BuildMenuTools() {
-    return GetBuilder<MainScreenController>(
-        builder: (mainController) => switch (mainController.tabText.value) {
+    return switch (controller.indexChildWidget.value) {
               0 => FontText(),
               1 => FormatText(),
               2 => ColorsPicker(
@@ -88,7 +89,7 @@ class TextEditScreen {
               3 => SizeText(),
               // TODO: Handle this case.
               int() => throw UnimplementedError(),
-            });
+            };
   }
 
   Widget BuildDisplayImage(MainScreenController mainController) {
@@ -102,8 +103,9 @@ class TextEditScreen {
               top: controller.texts[i].top,
               child: GestureDetector(
                   onTap: () {
+                    mainController.hideAllChooseMarkup();
                     controller.setCurrentIndex(i);
-                    mainController.changeBottom(keyIndex);
+                    mainController.navigateToUpdateText();
                   },
                   onPanUpdate: (details) {
                     controller.texts[i].left += details.delta.dx;
@@ -120,7 +122,7 @@ class TextEditScreen {
                               top: 0,
                               left: -10,
                               child: Visibility(
-                                visible: controller.texts[i].isChoose,
+                                visible: controller.currentIndexText.value == i,
                                 child: ElevatedButton(
                                     onPressed: () {
                                       controller.deleteText();
@@ -140,7 +142,7 @@ class TextEditScreen {
                               top: 0,
                               right: -10,
                               child: Visibility(
-                                visible: controller.texts[i].isChoose,
+                                visible: controller.currentIndexText.value  == i,
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (controller
@@ -175,7 +177,7 @@ class TextEditScreen {
                               bottom: 0,
                               left: -10,
                               child: Visibility(
-                                visible: controller.texts[i].isChoose,
+                                visible: controller.currentIndexText.value  == i,
                                 child: ElevatedButton(
                                     onPressed: () {
                                       controller.duplicateText();
@@ -196,7 +198,7 @@ class TextEditScreen {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: controller.texts[i].isChoose == true
+                                  color: controller.currentIndexText.value == i
                                       ? Colors.white
                                       : Colors.transparent,
                                 ),
@@ -254,86 +256,33 @@ class TextEditScreen {
       Icons.format_italic_outlined,
       Icons.format_underline_outlined,
     ];
-    var listIconAlignHorizontal = [
-      Icons.align_horizontal_left_outlined,
-      Icons.align_horizontal_center_outlined,
-      Icons.align_horizontal_right_outlined
-    ];
-    var listIconAlignVertical = [
-      Icons.align_vertical_top_outlined,
-      Icons.align_vertical_center_outlined,
-      Icons.align_vertical_bottom_outlined,
-    ];
     Color active = primitives.activeIconButton2;
     Color inactive = primitives.inactiveIconButton2;
     return Container(
         height: 50,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: listIconAlignVertical.length,
-                itemBuilder: (context, index) {
-                  return IconButton(
-                      onPressed: () {
-                        controller.changeFormatIndex(index);
-                      },
-                      icon: Icon(
-                        listIconFormatText[index],
-                        color: controller.selectedFormatText[index]
-                            ? active
-                            : inactive,
-                      ));
-                }),
-            const VerticalDivider(
-              indent: 30,
-              endIndent: 30,
-              thickness: 1,
-              color: Colors.white,
-            ),
-            ListView.builder(
-                // button for align vertical
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: listIconAlignVertical.length,
-                itemBuilder: (context, index) {
-                  return IconButton(
-                      onPressed: () {
-                        controller.changeAlignVerticalIndex(index);
-                      },
-                      icon: Icon(
-                        listIconAlignVertical[index],
-                        color: controller.selectedAlignVertical[index] == true
-                            ? active
-                            : inactive,
-                      ));
-                }),
-            const VerticalDivider(
-              indent: 30,
-              endIndent: 30,
-              thickness: 1,
-              color: Colors.white,
-            ),
-            ListView.builder(
-                // button for align horizontal
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: listIconAlignHorizontal.length,
-                itemBuilder: (context, index) {
-                  return IconButton(
-                      onPressed: () {
-                        controller.changeAlignHorizontalIndex(index);
-                      },
-                      icon: Icon(
-                        listIconAlignHorizontal[index],
-                        color: controller.selectedAlignHorizontal[index] == true
-                            ? active
-                            : inactive,
-                      ));
-                }),
-          ],
+        child: Center(
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: listIconFormatText.length,
+                  itemBuilder: (context, index) {
+                    return IconButton(
+                        onPressed: () {
+                          controller.changeFormatIndex(index);
+                        },
+                        icon: Icon(
+                          listIconFormatText[index],
+                          color: controller.selectedFormatText[index]
+                              ? active
+                              : inactive,
+                        ));
+                  }),
+            ],
+          ),
         ));
   }
 

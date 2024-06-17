@@ -32,7 +32,7 @@ class EnterText extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          if(controller.texts.isEmpty){
+                          if(controller.currentIndexText.value == -1){
                             controller.addNewText(textEditingController.text);
                           }
                           else {

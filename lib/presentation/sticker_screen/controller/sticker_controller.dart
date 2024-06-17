@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:fox/presentation/sticker_screen/models/sticker_models.dart';
@@ -27,16 +26,13 @@ class StickerController extends GetxController {
             asset: currentPack.elementAt(index),
             left: 100,
             top: 100,
-            isShowButton: false
+            isChoose: false
         ),
     );
     update();
   }
   void EditSticker(int index) {
-    for(var sticker in stickerInserted) {
-      sticker.isShowButton = false;
-    }
-    stickerInserted[index].isShowButton = true;
+    stickerInserted[index].isChoose = true;
     update();
   }
 
@@ -54,7 +50,7 @@ class StickerController extends GetxController {
             asset: stickerInserted[index].asset,
             left: stickerInserted[index].left + 20,
             top: stickerInserted[index].top + 20,
-            isShowButton: false)
+            isChoose: false)
     );
     update();
   }

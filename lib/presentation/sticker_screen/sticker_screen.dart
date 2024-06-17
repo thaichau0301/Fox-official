@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fox/core/app_export.dart';
+import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:fox/presentation/sticker_screen/controller/sticker_controller.dart';
 import 'package:fox/presentation/sticker_screen/models/sticker_models.dart';
 import 'package:fox/theme/primitives.dart';
@@ -23,8 +24,7 @@ class StickerScreen extends StatelessWidget  {
       ),
     );
   }
-  Widget DisplayStickers() {
-    Get.put(StickerController());
+  Widget DisplayStickers(MainScreenController mainController) {
     return GetBuilder<StickerController>(
         builder: (controller) => Stack(children: [
           for(int i=0; i<controller.stickerInserted.length; i++)
@@ -40,7 +40,7 @@ class StickerScreen extends StatelessWidget  {
                   controller.stickerInserted[i].top += details.delta.dy;
                   controller.update();
                 },
-                child: CustomSticker(controller, i, controller.stickerInserted[i].isShowButton),
+                child: CustomSticker(controller, i, controller.stickerInserted[i].isChoose),
               ),
             )
         ]));

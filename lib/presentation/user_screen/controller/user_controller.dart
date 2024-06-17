@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fox/domain/googleauth/google_auth_helper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../core/app_export.dart';
-import '../../main_screen/controller/main_screen_controller.dart';
 import '../models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,6 +21,14 @@ class UserController extends GetxController {
   RxString email = ''.obs;
   RxString photoUrl = ''.obs;
 
+  void showAlertDialog() {
+    Get.dialog(
+      AlertDialog(title: Center(child: Text('You must login', )),),
+    );
+    Timer(Duration(seconds: 1), () {
+      Get.back();
+    });
+  }
   void GetInfoUser()
   {
     auth.authStateChanges().listen((User? user) {
@@ -57,9 +63,10 @@ class UserController extends GetxController {
         }
       }
       await FirebaseAuth.instance.signOut();
+      deleteAllController();
     }
     else {
-      Get.snackbar('Failure', 'You can not log out');
+      showAlertDialog();
     }
   }
   Future<void> DeleteAccount() async {
@@ -77,38 +84,20 @@ class UserController extends GetxController {
         }
       }
       await firebaseUser!.delete();
+      deleteAllController();
     }
     else {
-      Get.snackbar('Failure', 'You can not delete account');
+      showAlertDialog();
     }
   }
-  Set<String> imageUrls = {};
-  Future<void> listUserFiles() async {
-    final user= FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final storageRef = FirebaseStorage.instance.ref();
-      final userFolderRef = storageRef.child('user_folders/${user.uid}');
-      try {
-        final listResult = await userFolderRef.listAll();
-        for (var ref in listResult.items) {
-          final url = await ref.getDownloadURL();
-          imageUrls.add(url);
-        };
-      } on FirebaseException catch (e) {
-        print('Error listing files: $e');
-      }
-    }
+  void deleteAllController() {
+    Get.deleteAll(force: true);
   }
-  Future<void> onTapImage(String imageUrl) async {
-    // route to main to edit that image
-    // save network image to cache to pass path to main
-    final imageData = await http.get(Uri.parse(imageUrl));
-    Directory cacheDir = await getApplicationCacheDirectory();
-    final fileName = imageUrl.split('/').last;
-    final file = File('${cacheDir.path}/$fileName');
-    // bodyBytes convert Response to Uint8List
-    await file.writeAsBytes(imageData.bodyBytes);
-    Get.delete<MainScreenController>(force: true);
-    Get.toNamed('/main_screen',arguments: {'fileImage': file, 'nameImage' : fileName});
+  void CheckEnterStudio() {
+    if (auth.currentUser != null) {
+      Get.toNamed('/studio_screen');
+    } else {
+      showAlertDialog();
+    }
   }
 }

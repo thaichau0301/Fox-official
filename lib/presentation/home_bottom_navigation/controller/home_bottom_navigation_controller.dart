@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
-import 'package:fox/presentation/text_edit_screen/controller/text_edit_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class HomeBottomBarController extends GetxController {
   var tabIndex = 0.obs;
@@ -23,17 +22,10 @@ class HomeBottomBarController extends GetxController {
       try
       {
         final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
-        // if directory null , create new directory
-        if (!appDocumentsDir.existsSync())
-        {
-          appDocumentsDir.createSync(recursive: true);
-        }
-        String newNameImage = fileImage.path.split('/').last; // Extract the file name
-
+        String nameImage = basename(fileImage.path);
         // move file image from cache to app_flutter - ready for editing will get image from here
-        File newFileImage = await fileImage.copySync('${appDocumentsDir.path}/$newNameImage');
-        Get.delete<MainScreenController>(force: true);
-        Get.toNamed('/main_screen',arguments: {'fileImage': newFileImage, 'nameImage' : newNameImage});
+        File newFileImage = await fileImage.copySync('${appDocumentsDir.path}/$nameImage');
+        Get.toNamed('/main_screen',arguments: {'fileImage': newFileImage, 'nameImage' : nameImage});
       }
       catch (e)
       {

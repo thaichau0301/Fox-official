@@ -11,8 +11,6 @@ class TextController extends GetxController {
   var indexChildWidget = 0.obs;
   RxInt currentIndexText = 0.obs;
   var selectedFormatText = List.filled(3, false);
-  var selectedAlignHorizontal = List.filled(3,false).obs;
-  var selectedAlignVertical = List.filled(3,false).obs;
   Map<String, double>? locationWidgetImage;
   var listFont = [ 'Open Sans', 'Oswald', 'Inter', 'Courier Prime', 'Roboto', 'Poppins',  'Playfair Display',  ];
   List<TextInfo> texts = [];
@@ -33,7 +31,7 @@ class TextController extends GetxController {
   }
   void changeTabIndex(int index) {
     indexChildWidget.value = index;
-    mainController.update();
+    update();
   }
   void changeFontIndex(int index) {
     selectedFont.value = index;
@@ -67,17 +65,6 @@ class TextController extends GetxController {
     }
     mainController.update();
   }
-  void changeAlignHorizontalIndex(int index) {
-    selectedAlignHorizontal.assignAll(List.filled(3,false));
-    selectedAlignHorizontal[index] = true;
-    update();
-  }
-
-  void changeAlignVerticalIndex(int index) {
-    selectedAlignVertical.assignAll(List.filled(3, false));
-    selectedAlignVertical[index] = true;
-    update();
-  }
 
   void addNewText(String inputText) {
     texts.add(TextInfo(
@@ -90,7 +77,7 @@ class TextController extends GetxController {
       fontStyle: FontStyle.normal,
       fontSize: 30,
       textAlign: TextAlign.center,
-      fontFamily: 'Roboto', isChoose: false,
+      fontFamily: 'Roboto',
     ));
     update();
   }
@@ -107,12 +94,13 @@ class TextController extends GetxController {
         fontStyle: duplicate.fontStyle,
         fontSize: duplicate.fontSize,
         textAlign: duplicate.textAlign,
-        fontFamily: duplicate.fontFamily, isChoose: false,
+        fontFamily: duplicate.fontFamily,
       ));
       update();
     }
   }
   void updateText(String newText){
+
     texts.elementAt(currentIndexText.value).text = newText;
     update();
   }
@@ -126,16 +114,7 @@ class TextController extends GetxController {
     }
   }
   setCurrentIndex(int index) {
-    try {
-      currentIndexText.value = index;
-      for (var text in texts) {
-        text.isChoose = false;
-      }
-      texts[currentIndexText.value].isChoose = true;
-    }
-    catch(e) {
-      print(e);
-    }
+    currentIndexText.value = index;
     update();
   }
   // if write ColorsPickerController().Pick , index color will be always reset

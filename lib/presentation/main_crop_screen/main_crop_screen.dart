@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fox/presentation/main_screen/controller/main_screen_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../theme/primitives.dart';
 import 'package:path/path.dart';
 
@@ -45,6 +44,8 @@ class CropScreen {
         compressFormat: ImageCompressFormat.jpg,
       );
       if(File(cropImage!.path).existsSync()) {
+        // clear mark up to avoid duplicate when back to main
+        mainController.clearMarkup();
         try {
           int lastIndex = mainController.editedImage.value!.path.lastIndexOf(
               '/');

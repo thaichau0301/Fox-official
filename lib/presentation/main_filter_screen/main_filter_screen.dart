@@ -22,6 +22,9 @@ class FiltersScreen{
               )
       );
       if (getImage.containsKey('image_filtered')) {
+        // clear mark up to avoid duplicate when back to main
+        mainController.clearMarkup();
+
         mainController.editedImage.value!.deleteSync(); // delete old file
         mainController.updateEditedImage(getImage['image_filtered']);
         Future.delayed(Duration(milliseconds: 100));

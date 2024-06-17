@@ -68,15 +68,18 @@ class PaintScreen {
       {'Highlight': FontAwesomeIcons.highlighter},
       {'Clear': FontAwesomeIcons.eraser},
     ];
-    return GetBuilder<PaintController>(
-      builder: (controller) => Row(
+    final controller = Get.find<PaintController>();
+    int _index = controller.selectedIndex.value;
+    Color active = primitives.activeIconBottomBar;
+    Color inactive = primitives.inactiveIconBottomBar;
+    return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Flexible(
               flex: 1,
               child: IconButton(
                   onPressed: () {
-                    Get.find<MainScreenController>().changeBottom(0);
+                    Get.find<MainScreenController>().resetBottomBar();
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_outlined,
@@ -101,9 +104,7 @@ class PaintScreen {
                                   flex: 2,
                                   child: Icon(
                                     iconButton[index].values.first,
-                                    color: controller.selectedIndex == index
-                                        ? primitives.active
-                                        : primitives.inactive,
+                                    color: _index == index ? active : inactive,
                                     size: sizeIcon,
                                   )),
                               Expanded(
@@ -111,9 +112,7 @@ class PaintScreen {
                                   child: Text(
                                     iconButton[index].keys.first,
                                     style: TextStyle(
-                                      color: controller.selectedIndex == index
-                                          ? primitives.active
-                                          : primitives.inactive,
+                                      color: _index == index ? active : inactive,
                                     ),
                                   ))
                             ],
@@ -125,7 +124,6 @@ class PaintScreen {
                     );
                   }))
         ],
-      ),
-    );
+      );
   }
 }

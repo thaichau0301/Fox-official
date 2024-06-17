@@ -43,7 +43,10 @@ class bottomSheetConfirm{
                       ),
                     ),
                     GestureDetector(
-                      onTap: (){ Get.toNamed('/home_screen');} ,
+                      onTap: (){
+                        Get.deleteAll(force: true);
+                        Get.toNamed('/home_screen');
+                        } ,
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.center,

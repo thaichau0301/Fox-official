@@ -12,7 +12,6 @@ class TextInfo {
    TextAlign textAlign;
    String fontFamily;
  TextDecoration textDecoration;
- bool isChoose;
 
 
   TextInfo(
@@ -27,7 +26,6 @@ class TextInfo {
     required this.fontSize,
     required this.textAlign,
     required this.fontFamily,
-    required this.isChoose,
   });
 }
 

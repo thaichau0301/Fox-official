@@ -9,13 +9,20 @@ class MainAdjustController extends GetxController {
 
   void onInit(){
     super.onInit();
-     selectedItem = (-1).obs;
+     selectedItem = 0.obs;
   }
   void changeItemIndex(int index) {
     selectedItem.value = index;
     switch(index) {
       case 0: updateValueSlider(brightnessImg); break;
       case 1: updateValueSlider(saturationImg); break;
+    }
+    update();
+  }
+  void resetValueAdjust(int index){
+    switch(index) {
+      case 0: brightnessImg.value = 0; break;
+      case 1: saturationImg.value = 0;; break;
     }
     update();
   }

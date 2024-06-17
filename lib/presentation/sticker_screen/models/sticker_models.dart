@@ -4,12 +4,12 @@ class StickerInfo {
   final String asset;
   double left;
   double top;
-  bool isShowButton;
+  bool isChoose;
   StickerInfo({
     required this.asset,
     required this.left,
     required this.top,
-    required this.isShowButton
+    required this.isChoose
   });
 }
 class StickerModels extends StatelessWidget {

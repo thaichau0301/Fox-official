@@ -6,22 +6,12 @@ import '../home_screen/home_screen.dart';
 import 'controller/home_bottom_navigation_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
-
 class HomeBottomBar extends StatelessWidget {
   const HomeBottomBar({super.key});
   @override
   Widget build(BuildContext context) {
 
     final controller = Get.put(HomeBottomBarController());
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Scaffold(
-        appBar: AppBar(title: Text('enter text'),),
-        backgroundColor: Colors.yellowAccent,
-        body: Container(height: double.infinity, width: double.infinity, color: Colors.blue,),
-      );
-
-    });
     return Obx(() => Scaffold(
           body: Center(
             child:
@@ -34,15 +24,14 @@ class HomeBottomBar extends StatelessWidget {
                 ],
               )
           ),
-          bottomNavigationBar: buildBottomNavigationBar(),
+          bottomNavigationBar: buildBottomNavigationBar(controller),
         ));
   }
 
 
-  Widget buildBottomNavigationBar() {
-    final controller = Get.find<HomeBottomBarController>();
+  Widget buildBottomNavigationBar(HomeBottomBarController controller) {
     return Container(
-      height: 80,
+      height: primitives.heightBottom,
       child: Theme(
         data: theme.copyWith(
           splashColor: Colors.transparent,

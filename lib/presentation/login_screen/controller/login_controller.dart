@@ -4,7 +4,6 @@ import '../../../core/app_export.dart';
 import '../../../domain/googleauth/google_auth_helper.dart';
 import '../../home_bottom_navigation/controller/home_bottom_navigation_controller.dart';
 import 'package:fox/domain/facebookauth/flutter_facebook_auth_login.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 /// A controller class for the LoginScreen.
 ///
 /// This class manages the state of the LoginScreen, including the
