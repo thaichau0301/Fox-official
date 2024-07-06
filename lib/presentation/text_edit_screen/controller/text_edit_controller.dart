@@ -9,7 +9,7 @@ class TextController extends GetxController {
   var selectedFont;
   var selectedColor;
   var indexChildWidget = 0.obs;
-  RxInt currentIndexText = 0.obs;
+  RxInt currentIndexText = (-1).obs;
   var selectedFormatText = List.filled(3, false);
   Map<String, double>? locationWidgetImage;
   var listFont = [ 'Open Sans', 'Oswald', 'Inter', 'Courier Prime', 'Roboto', 'Poppins',  'Playfair Display',  ];

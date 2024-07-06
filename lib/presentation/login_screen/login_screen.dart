@@ -7,8 +7,6 @@ class LoginScreen extends GetView<LoginController> {
       : super(
           key: key,
         );
-
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<LoginController>();
@@ -69,7 +67,6 @@ class LoginScreen extends GetView<LoginController> {
       ),
     );
   }
-  /// Section Widget
   Widget _buildLoginColumnIconFox() {
     return Column(
       children: [
@@ -79,7 +76,6 @@ class LoginScreen extends GetView<LoginController> {
           child: Image.asset('assets/images/img_icon_fox.png'),
         ),
         Container(
-          // decoration: AppDecoration.outlineBlack,
           child: const Text('FOX', style: TextStyle(fontSize: 60,),)
         )
       ],

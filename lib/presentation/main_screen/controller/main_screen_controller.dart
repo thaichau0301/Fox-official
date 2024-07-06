@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fox/presentation/main_crop_screen/main_crop_screen.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,29 +43,6 @@ class MainScreenController extends GetxController {
     });
   }
 
-  Future<void> saveImageStudio() async {
-    final user = FirebaseAuth.instance.currentUser;
-    // ... (cacheDir logic if needed)
-
-    String time = DateTime.now().toIso8601String();
-    if (user != null) {
-      final storageRef = FirebaseStorage.instance.ref();
-      final userFolderRef = storageRef.child('user_folders/${user.uid}');
-
-      try {final image = await screenshotController.capture(); // Use await here
-      if (image != null) {
-        final fileRef = userFolderRef.child('editedImage_$time');
-        await fileRef.putData(image);
-        // Handle successful upload (e.g., show a success message)
-      } else {
-        // Handle case where capture() returns null
-      }
-      } catch (e) {
-        // Handle potential errors during capture or upload
-        print('Error saving image: $e');
-      }
-    }
-  }
 
   Future hideAllChooseMarkup() async {
     int listStickerLength = Get.find<StickerController>().stickerInserted.length;
@@ -75,9 +50,7 @@ class MainScreenController extends GetxController {
       Get.find<StickerController>().stickerInserted[i].isChoose = false;
     }
     update();
-
   }
-
   Future<void> navigateToFilter() async {
     // hide buttons of mark up before screen shot and pass that image to other screen
     await hideAllChooseMarkup();
@@ -90,7 +63,6 @@ class MainScreenController extends GetxController {
       }
     });
   }
-
   Future<void> navigateToCrop() async {
     // hide buttons of mark up before screen shot and pass that image to other screen
     await hideAllChooseMarkup();

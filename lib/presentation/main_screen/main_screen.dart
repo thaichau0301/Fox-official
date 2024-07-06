@@ -114,40 +114,9 @@ class MainScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {
-                showMenu(
-                  context: context,
-                  position: RelativeRect.fromLTRB(200, 70, 0, 100),
-                  color: Colors.black,
-                  items: [
-                    PopupMenuItem(
-                      child: TextButton(
-                        onPressed: () async {
-                          controller.saveImageGallery();
-                          Get.toNamed('/home_screen');
-                        },
-                        child: const Text(
-                          'Save to camera roll',
-                          style: TextStyle(color: Colors.white, fontSize: 13),
-                        ),
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                    PopupMenuItem(
-                      child: TextButton(
-                        onPressed: () {
-                          controller.saveImageStudio();
-                          Get.toNamed('/home_screen');
-                        },
-                        child: const Text(
-                          'Save to studio',
-                          style: TextStyle(color: Colors.white, fontSize: 13),
-                        ),
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                  ],
-                );
+              onPressed: (){
+                controller.saveImageGallery();
+                Get.toNamed('/home_screen');
               },
               icon: const Icon(
                 Icons.file_download_outlined,

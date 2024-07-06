@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fox/presentation/studio_screen/controller/studio_controller.dart';
 import 'package:fox/theme/primitives.dart';
 import '../../core/app_export.dart';
 import '../../theme/theme_helper.dart';
 import 'controller/user_controller.dart'; // ignore_for_file: must_be_immutable
 
 Primitives primitives = new Primitives();
-
 
 class UserScreen extends GetWidget<UserController> {
   UserScreen({Key? key})
@@ -17,7 +15,6 @@ class UserScreen extends GetWidget<UserController> {
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
-    Get.put(StudioController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.gray100,
@@ -67,9 +64,6 @@ class UserScreen extends GetWidget<UserController> {
                 'Delete account',
                 () => dialogConfirm('Do you wish to delete account?', 'Delete',
                     userController.DeleteAccount)),
-            CustomTextButton(
-                'Studio',
-                () => controller.CheckEnterStudio()),
           ],
         ),
       ),
